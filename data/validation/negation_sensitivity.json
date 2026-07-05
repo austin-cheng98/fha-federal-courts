@@ -1,0 +1,63 @@
+{
+ "baseline": {
+  "n": 501,
+  "claim_shares": {
+   "disparate_treatment": 0.3912,
+   "disparate_impact": 0.3273,
+   "zoning_exclusionary": 0.2236,
+   "refusal_rent_sell": 0.2774,
+   "reasonable_accommodation": 0.6287
+  },
+  "framework": {
+   "none_explicit": 0.6447,
+   "mcdonnell_douglas": 0.2635,
+   "hud_three_step": 0.0918
+  },
+  "strictness_mean": 0.3607,
+  "plaintiff_win": 0.3485,
+  "n_holdings": 66,
+  "twfe": {
+   "coef": 0.0045,
+   "se": 0.0027,
+   "p": 0.1162,
+   "wild_p": 0.0721,
+   "n": 55,
+   "clusters": 12
+  }
+ },
+ "negation": {
+  "n": 501,
+  "claim_shares": {
+   "disparate_treatment": 0.3693,
+   "disparate_impact": 0.3234,
+   "zoning_exclusionary": 0.2196,
+   "refusal_rent_sell": 0.2735,
+   "reasonable_accommodation": 0.6267
+  },
+  "framework": {
+   "none_explicit": 0.6627,
+   "mcdonnell_douglas": 0.2455,
+   "hud_three_step": 0.0918
+  },
+  "strictness_mean": 0.3571,
+  "plaintiff_win": 0.3485,
+  "n_holdings": 66,
+  "twfe": {
+   "coef": 0.0045,
+   "se": 0.0026,
+   "p": 0.1122,
+   "wild_p": 0.0741,
+   "n": 55,
+   "clusters": 12
+  }
+ },
+ "delta_claim_shares_pp": {
+  "disparate_treatment": -0.0219,
+  "disparate_impact": -0.0039,
+  "zoning_exclusionary": -0.004,
+  "refusal_rent_sell": -0.0039,
+  "reasonable_accommodation": -0.002
+ },
+ "delta_win_rate_pp": 0.0,
+ "delta_strictness": -0.0036
+}

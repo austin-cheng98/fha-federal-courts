@@ -1,0 +1,4 @@
+era,n,disparate_treatment,disparate_impact,zoning_exclusionary,refusal_rent_sell,reasonable_accommodation,strictness,win_rate,n_holdings
+pre-2015,91,0.363,0.396,0.286,0.462,0.56,0.366,0.588,17
+2015-2019,45,0.556,0.6,0.333,0.422,0.511,0.48,0.333,9
+2020+,365,0.378,0.277,0.195,0.214,0.66,0.345,0.25,40

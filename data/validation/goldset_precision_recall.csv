@@ -1,0 +1,7 @@
+variable,prevalence_human,precision,recall,f1,kappa
+claim_disparate_treatment,0.517,0.852,0.742,0.793,0.601
+claim_disparate_impact,0.158,0.429,0.947,0.59,0.476
+claim_refusal_rent_sell,0.333,0.694,0.625,0.658,0.5
+claim_reasonable_accommodation,0.333,0.5,1.0,0.667,0.4
+claim_zoning_exclusionary,0.133,0.457,1.0,0.627,0.544
+claims_micro,0.295,0.587,0.819,0.684,0.518

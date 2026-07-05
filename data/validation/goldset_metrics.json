@@ -1,0 +1,95 @@
+{
+ "n_cases": 120,
+ "claims": [
+  {
+   "variable": "claim_disparate_treatment",
+   "prevalence_human": 0.517,
+   "precision": 0.852,
+   "recall": 0.742,
+   "f1": 0.793,
+   "kappa": 0.601
+  },
+  {
+   "variable": "claim_disparate_impact",
+   "prevalence_human": 0.158,
+   "precision": 0.429,
+   "recall": 0.947,
+   "f1": 0.59,
+   "kappa": 0.476
+  },
+  {
+   "variable": "claim_refusal_rent_sell",
+   "prevalence_human": 0.333,
+   "precision": 0.694,
+   "recall": 0.625,
+   "f1": 0.658,
+   "kappa": 0.5
+  },
+  {
+   "variable": "claim_reasonable_accommodation",
+   "prevalence_human": 0.333,
+   "precision": 0.5,
+   "recall": 1.0,
+   "f1": 0.667,
+   "kappa": 0.4
+  },
+  {
+   "variable": "claim_zoning_exclusionary",
+   "prevalence_human": 0.133,
+   "precision": 0.457,
+   "recall": 1.0,
+   "f1": 0.627,
+   "kappa": 0.544
+  },
+  {
+   "variable": "claims_micro",
+   "prevalence_human": 0.295,
+   "precision": 0.587,
+   "recall": 0.819,
+   "f1": 0.684,
+   "kappa": 0.518
+  }
+ ],
+ "framework_accuracy": 0.758,
+ "framework_kappa": 0.488,
+ "holding_detection": {
+  "precision": 0.652,
+  "recall": 0.551,
+  "f1": 0.597,
+  "n_human_holdings": 78,
+  "n_machine_holdings": 66
+ },
+ "winner_on_machine_holdings": {
+  "n_machine_holdings": 66,
+  "human_label_distribution": {
+   "D": 26,
+   "P": 17,
+   "unclear": 13,
+   "mixed": 10
+  },
+  "n_both_decisive": 43,
+  "binary_accuracy": 0.791,
+  "binary_kappa": 0.558,
+  "machine_win_rate": 0.348,
+  "human_win_rate_same_cases": 0.395
+ },
+ "corpus_win_rate": {
+  "rate": 0.348,
+  "n": 66,
+  "wilson95": [
+   0.244,
+   0.468
+  ]
+ },
+ "inter_annotator": {
+  "n_double_coded": 30,
+  "claims_agreement": 0.953,
+  "claims_kappa": 0.899,
+  "framework_agreement": 0.933,
+  "framework_kappa": 0.864,
+  "winner_agreement_4way": 0.8,
+  "winner_kappa_4way": 0.726,
+  "winner_binary_agreement": 1.0,
+  "n_winner_binary": 16
+ }
+}

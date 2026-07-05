@@ -1,0 +1,5 @@
+spec,coef,se,p,wild_p,n,clusters
+baseline (filings+success+remedy),0.0045,0.0027,0.1162,0.0721,55,12
+drop filings,0.0028,0.0024,0.2581,0.1682,55,12
+drop plaintiff_success,0.0048,0.0024,0.0745,0.0601,55,12
+drop remedy_severity,0.0029,0.0017,0.1089,0.043,55,12

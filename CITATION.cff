@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use this software or dataset, please cite it as below."
+title: "Reading the Circuits: Machine Measurement of Fair Housing Act Enforcement and Doctrinal Variation in the U.S. Federal Courts"
+authors:
+  - family-names: "Cheng"
+    given-names: "Austin"
+version: 0.1.0
+date-released: "2026-01-01"
+year: 2026
+license: MIT
+type: software
+abstract: >-
+  A reproducible machine-measurement pipeline and accompanying near-census
+  corpus for studying Fair Housing Act (FHA) enforcement across the U.S.
+  federal courts. The project harvests housing civil-rights opinions
+  (Nature-of-Suit 443), identifies substantively-FHA cases via weak
+  supervision, extracts claims, doctrinal frameworks, dispositions, and a
+  posture-strictness measure, induces doctrinal regimes through TF-IDF/LSA
+  K-means clustering, and builds a circuit-by-year Federal Enforcement
+  Intensity Index. It then links enforcement to residential segregation with
+  two-way fixed-effects econometrics and wild-cluster-bootstrap inference,
+  reporting an honest, marginally null association.
+keywords:
+  - "fair housing act"
+  - "computational legal studies"
+  - "text-as-data"
+  - "fixed effects"
+  - "segregation"
