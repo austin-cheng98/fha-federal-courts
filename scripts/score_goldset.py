@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
-Score the 120-case gold set (machine vs hand coding) and inter-annotator
-reliability from the 30-case second pass. Reads data/validation/, writes
+Score the 93-case enriched/choice-based canonical-corpus overlap (machine vs
+hand coding) and inter-annotator reliability from the 30-case second pass.
+Reads data/validation/, writes
 outputs/paper/validation/.
 """
 import json
@@ -14,6 +15,8 @@ from sklearn.metrics import precision_recall_fscore_support, cohen_kappa_score
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from fha import config  # noqa: E402
+from fha.extract import extract_case  # noqa: E402
+from fha.classify import build_clean_corpus  # noqa: E402
 
 S = str(Path(__file__).resolve().parents[1] / "data" / "validation")
 OUT = config.OUTPUTS / "paper" / "validation"
@@ -38,7 +41,25 @@ def main():
     human = json.load(open(f"{S}/gold_human_codings.json"))
     prim = {c["case_id"]: c for c in human["primary"]}
     sec = {c["case_id"]: c for c in human["second"]}
-    ml = pd.read_csv(f"{S}/gold_machine_labels.csv").set_index("cluster_id")
+    # Regenerate machine labels from the current extractor so validation never
+    # silently scores a stale CSV after a rule or lexicon change.
+    corpus = {r["cluster_id"]: r for r in
+              (json.loads(l) for l in open(config.PROCESSED / "paper_corpus.jsonl")
+               if l.strip())}
+    ml_rows = []
+    for case_id in sorted(set(prim) | set(sec)):
+        if case_id not in corpus:
+            continue
+        row = extract_case(corpus[case_id])
+        ml_rows.append({"cluster_id": case_id, **{
+            k: row.get(k) for k in [
+                "year", "circuit", "court_level",
+                "claim_disparate_treatment", "claim_disparate_impact",
+                "claim_zoning_exclusionary", "claim_refusal_rent_sell",
+                "claim_reasonable_accommodation", "burden_framework",
+                "outcome_cue", "doctrinal_strictness"]}})
+    ml = pd.DataFrame(ml_rows).set_index("cluster_id")
+    ml.to_csv(f"{S}/gold_machine_labels.csv")
     ids = [i for i in ml.index if i in prim]
     print(f"scored cases: {len(ids)} (machine ∩ human primary)")
 
@@ -84,7 +105,7 @@ def main():
         return {"P": 1, "D": 0}.get(prim[i]["winner"], None)  # mixed/unclear -> None
 
     def m_win(i):
-        v = ml.loc[i, "plaintiff_win"]
+        v = ml.loc[i, "outcome_cue"]
         return None if pd.isna(v) else int(v)
 
     # holding detection: does machine flag a decisive holding where a human sees one
@@ -114,13 +135,16 @@ def main():
         "human_win_rate_same_cases": round(float(h_wr), 3),
     }
 
-    # win rate with CI (the 66-holding number that carries 34.8%)
-    full_ml = pd.read_csv(config.PROCESSED / "real_case_features.csv") \
-        if (config.PROCESSED / "real_case_features.csv").exists() else None
-    # use the machine_labels holdings count from the FULL corpus is elsewhere;
-    # report CI for the corpus win rate n=66
-    res["corpus_win_rate"] = {"rate": 0.348, "n": 66,
-                              "wilson95": wilson(0.348, 66)}
+    # Win rate and interval from the current canonical full-text corpus.
+    full = [json.loads(l) for l in
+            open(config.PROCESSED / "paper_corpus.jsonl") if l.strip()]
+    full_clean, _ = build_clean_corpus(full, use_ml=False, require_nos443=True)
+    full_feat = pd.DataFrame(extract_case(r) for r in full_clean)
+    full_feat = full_feat[full_feat.circuit.notna() & full_feat.year.notna()]
+    full_pw = full_feat["outcome_cue"].dropna()
+    full_rate = float(full_pw.mean()) if len(full_pw) else float("nan")
+    res["corpus_win_rate"] = {"rate": round(full_rate, 3), "n": int(len(full_pw)),
+                              "wilson95": wilson(full_rate, int(len(full_pw)))}
 
     # ---- inter-annotator reliability (second pass vs primary) ----
     sp = [i for i in sec if i in prim]
@@ -159,7 +183,9 @@ def main():
     print("\n== WINNER ==")
     print(" holding detection:", res["holding_detection"])
     print(" on machine's holdings:", res["winner_on_machine_holdings"])
-    print(f" corpus win rate 0.348 (n=66) 95% CI {res['corpus_win_rate']['wilson95']}")
+    print(f" corpus win rate {res['corpus_win_rate']['rate']:.3f} "
+          f"(n={res['corpus_win_rate']['n']}) 95% CI "
+          f"{res['corpus_win_rate']['wilson95']}")
     print("\n== INTER-ANNOTATOR (2nd pass, n=%d) ==" % res["inter_annotator"]["n_double_coded"])
     ia = res["inter_annotator"]
     print(f" claims agree {ia['claims_agreement']} k={ia['claims_kappa']} | "

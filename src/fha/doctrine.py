@@ -1,6 +1,6 @@
 """
 Doctrinal regimes: TF-IDF + LSA embeddings, KMeans clustering (clusters
-named weak/moderate/strict by mean strictness), and the circuit-year
+named weak/moderate/strict by mean legal-signal breadth), and the circuit-year
 doctrine map, transitions, and cross-circuit divergence.
 """
 from __future__ import annotations
@@ -66,26 +66,30 @@ def _embed_legalbert(texts: list[str]) -> np.ndarray:
 REGIME_NAMES = ["weak", "moderate", "strict"]
 
 
-def cluster_regimes(emb: np.ndarray, strictness: np.ndarray,
+def cluster_regimes(emb: np.ndarray, legal_signal: np.ndarray,
                     n_regimes: int | None = None, seed: int = 0
                     ) -> tuple[np.ndarray, dict]:
-    """KMeans on embeddings; map cluster ids to weak/moderate/strict by mean
-    doctrinal strictness. Returns (regime_label_per_doc, info)."""
+    """KMeans on embeddings; order clusters by mean legal-signal breadth.
+
+    ``legal_signal`` is the primary name; the historical strictness naming is
+    retained only in the compatibility key returned below.
+    """
     from sklearn.cluster import KMeans
     n = n_regimes or config.SETTINGS.n_doctrinal_regimes
     n = min(n, max(2, emb.shape[0]))
     km = KMeans(n_clusters=n, n_init=10, random_state=seed)
     raw = km.fit_predict(emb)
-    # order clusters by mean strictness, assign names from weak->strict
-    order = (pd.Series(strictness).groupby(raw).mean().sort_values().index.tolist())
+    # order clusters by mean legal-signal score, assign names from weak->strict
+    order = (pd.Series(legal_signal).groupby(raw).mean().sort_values().index.tolist())
     names = REGIME_NAMES if n == 3 else [f"regime_{i}" for i in range(n)]
     mapping = {cl: (names[i] if n == 3 else f"regime_{i}")
                for i, cl in enumerate(order)}
     labels = np.array([mapping[c] for c in raw])
     info = {"mapping": {int(k): v for k, v in mapping.items()},
             "sizes": pd.Series(labels).value_counts().to_dict(),
-            "mean_strictness_by_regime":
-                pd.Series(strictness).groupby(labels).mean().round(3).to_dict()}
+            "regime_legal_signal":
+                pd.Series(legal_signal).groupby(labels).mean().round(3).to_dict()}
+    info["mean_strictness_by_regime"] = info["regime_legal_signal"]
     return labels, info
 
 
@@ -136,7 +140,8 @@ def run_step4(features: pd.DataFrame, texts: list[str],
               backend: str | None = None) -> dict:
     """Glue: embed -> cluster -> attach regime -> build maps. Returns frames."""
     emb = embed(texts, backend=backend)
-    labels, info = cluster_regimes(emb, features["doctrinal_strictness"].to_numpy())
+    signal_col = "legal_signal_score" if "legal_signal_score" in features else "doctrinal_strictness"
+    labels, info = cluster_regimes(emb, features[signal_col].to_numpy())
     feat = features.copy()
     feat["regime"] = labels
     cmap = doctrine_map(feat)

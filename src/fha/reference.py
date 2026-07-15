@@ -43,6 +43,35 @@ APPELLATE_COURTS = {f"ca{n}" for n in range(1, 12)} | {"cadc", "cafc"}
 SUPREME_COURT = "scotus"
 
 
+# CourtListener's bulk exports contain both numeric NOS strings and a small
+# number of legacy rows with the official description but no numeric prefix.
+# The paper's released corpus uses this conservative normalizer rather than a
+# substring test (e.g. "3443" must not be treated as code 443).
+_NOS443_LABEL = re.compile(
+    r"^\s*civil\s+rights\s*:\s*(?:housing\s*/?\s*)?"
+    r"accommodations?\s*$", re.IGNORECASE)
+_NOS443_CODE = re.compile(r"(?<!\d)443(?!\d)")
+
+
+def canonical_nos_code(value: str | int | None) -> str | None:
+    """Return the canonical federal NOS code when `value` is unambiguously 443.
+
+    The official description is accepted because some CourtListener bulk rows
+    preserve the description but omit the numeric prefix. Other numeric
+    strings, including 3443/2443/4443, are rejected rather than matched by
+    substring.
+    """
+    s = str(value or "").strip()
+    if _NOS443_CODE.search(s) or _NOS443_LABEL.fullmatch(s):
+        return "443"
+    return None
+
+
+def is_nos443(value: str | int | None) -> bool:
+    """Whether a nature-of-suit value is an exact/label-equivalent NOS-443."""
+    return canonical_nos_code(value) == "443"
+
+
 def court_to_circuit(court_id: str | None) -> str | None:
     """Map a CourtListener court id to a circuit label, else None."""
     if not court_id:
@@ -138,11 +167,15 @@ CLAIM_LEXICON: dict[str, list[str]] = {
     ],
     "disparate_impact": [
         r"disparate\s+impact", r"discriminatory\s+effect",
-        r"inclusive\s+communities", r"\bdisproportionate\w*\s+(?:impact|effect)",
+        r"\bdisproportionate\w*\s+(?:impact|effect)",
+        r"inclusive\s+communities.{0,100}(?:disparate\s+impact|discriminatory\s+effect)",
     ],
     "zoning_exclusionary": [
-        r"\bzoning\b", r"exclusionary", r"\bland\s+use\b", r"special\s+(?:use\s+)?permit",
-        r"\bvariance\b", r"\bgroup\s+home\b", r"comprehensive\s+plan",
+        r"\b(?:zoning|land\s+use|special\s+(?:use\s+)?permit|variance|group\s+home|comprehensive\s+plan)\b"
+        r".{0,140}(?:fair\s+housing|FHA|discriminat|reasonable\s+accommodation|3604)",
+        r"(?:fair\s+housing|FHA|discriminat|reasonable\s+accommodation|3604)"
+        r".{0,140}\b(?:zoning|land\s+use|special\s+(?:use\s+)?permit|variance|group\s+home|comprehensive\s+plan)\b",
+        r"\bexclusionary\s+(?:zoning|land\s+use|practice|policy)\b",
     ],
     "refusal_rent_sell": [
         r"refus\w*\s+to\s+(?:rent|sell|lease|negotiate)", r"\bsteering\b",
@@ -150,7 +183,10 @@ CLAIM_LEXICON: dict[str, list[str]] = {
     ],
     "reasonable_accommodation": [
         r"reasonable\s+accommodation", r"reasonable\s+modification",
-        r"\bhandicap\w*\b", r"\bdisabilit\w+\b", r"\b3604\s*\(\s*f\s*\)",
+        r"(?:request|denial|refusal|failure\s+to\s+grant|need\s+for).{0,80}"
+        r"(?:accommodation|modification)",
+        r"(?:accommodation|modification).{0,80}(?:disabilit\w*|handicap\w*|housing|tenant|dwelling)",
+        r"(?:disabilit\w*|handicap\w*).{0,80}(?:accommodation|modification|assistance\s+animal|support\s+animal)",
         r"emotional\s+support\s+animal", r"assistance\s+animal",
     ],
 }

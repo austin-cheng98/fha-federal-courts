@@ -1,63 +1,53 @@
 {
  "baseline": {
-  "n": 501,
+  "n": 417,
   "claim_shares": {
-   "disparate_treatment": 0.3912,
-   "disparate_impact": 0.3273,
-   "zoning_exclusionary": 0.2236,
-   "refusal_rent_sell": 0.2774,
-   "reasonable_accommodation": 0.6287
+   "disparate_treatment": 0.3765,
+   "disparate_impact": 0.2806,
+   "zoning_exclusionary": 0.0935,
+   "refusal_rent_sell": 0.2374,
+   "reasonable_accommodation": 0.3549
   },
   "framework": {
-   "none_explicit": 0.6447,
-   "mcdonnell_douglas": 0.2635,
-   "hud_three_step": 0.0918
+   "none_explicit": 0.6691,
+   "mcdonnell_douglas": 0.2518,
+   "hud_three_step": 0.0791
   },
-  "strictness_mean": 0.3607,
-  "plaintiff_win": 0.3485,
-  "n_holdings": 66,
+  "legal_signal_mean": 0.2787,
+  "outcome_cue_rate": 0.3585,
+  "n_resolved_outcome_cues": 53,
   "twfe": {
-   "coef": 0.0045,
-   "se": 0.0027,
-   "p": 0.1162,
-   "wild_p": 0.0721,
-   "n": 55,
-   "clusters": 12
+   "note": "insufficient panel for FE inference: n=8, params=9, units=8, years=1"
   }
  },
  "negation": {
-  "n": 501,
+  "n": 417,
   "claim_shares": {
-   "disparate_treatment": 0.3693,
-   "disparate_impact": 0.3234,
-   "zoning_exclusionary": 0.2196,
-   "refusal_rent_sell": 0.2735,
-   "reasonable_accommodation": 0.6267
+   "disparate_treatment": 0.3525,
+   "disparate_impact": 0.2758,
+   "zoning_exclusionary": 0.0911,
+   "refusal_rent_sell": 0.2374,
+   "reasonable_accommodation": 0.3453
   },
   "framework": {
-   "none_explicit": 0.6627,
-   "mcdonnell_douglas": 0.2455,
-   "hud_three_step": 0.0918
+   "none_explicit": 0.6906,
+   "mcdonnell_douglas": 0.2302,
+   "hud_three_step": 0.0791
   },
-  "strictness_mean": 0.3571,
-  "plaintiff_win": 0.3485,
-  "n_holdings": 66,
+  "legal_signal_mean": 0.2729,
+  "outcome_cue_rate": 0.3585,
+  "n_resolved_outcome_cues": 53,
   "twfe": {
-   "coef": 0.0045,
-   "se": 0.0026,
-   "p": 0.1122,
-   "wild_p": 0.0741,
-   "n": 55,
-   "clusters": 12
+   "note": "insufficient panel for FE inference: n=8, params=9, units=8, years=1"
   }
  },
  "delta_claim_shares_pp": {
-  "disparate_treatment": -0.0219,
-  "disparate_impact": -0.0039,
-  "zoning_exclusionary": -0.004,
-  "refusal_rent_sell": -0.0039,
-  "reasonable_accommodation": -0.002
+  "disparate_treatment": -0.024,
+  "disparate_impact": -0.0048,
+  "zoning_exclusionary": -0.0024,
+  "refusal_rent_sell": 0.0,
+  "reasonable_accommodation": -0.0096
  },
- "delta_win_rate_pp": 0.0,
- "delta_strictness": -0.0036
+ "delta_outcome_cue_rate": 0.0,
+ "delta_legal_signal": -0.0058
 }

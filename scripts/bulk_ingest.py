@@ -16,7 +16,7 @@ import requests
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from fha import config                                   # noqa: E402
 from fha.bulkdata import stream_bulk_rows                # noqa: E402
-from fha.reference import court_to_circuit, court_level  # noqa: E402
+from fha.reference import court_to_circuit, court_level, is_nos443  # noqa: E402
 
 # authoritative CSV column indices (from the bulk files' own header rows)
 DOCK = {"id": 0, "date_filed": 14, "case_name": 18, "nature_of_suit": 25, "court_id": 42}
@@ -34,8 +34,9 @@ def _stream_rows(table: str):
 
 
 def _is_housing(nos: str, name: str) -> bool:
-    nos, name = (nos or "").lower(), (name or "").lower()
-    return ("443" in nos or "housing" in nos or "fair housing" in name)
+    # Use the official NOS-443 code/description only. Case-name matching and
+    # substring matching (e.g. 3443) contaminate the retrieval denominator.
+    return is_nos443(nos)
 
 
 def build(max_cases: int | None = None, max_rows: int | None = None,
@@ -90,7 +91,8 @@ def build(max_cases: int | None = None, max_rows: int | None = None,
                 "court_id": d["court_id"], "circuit": d["circuit"],
                 "court_level": d["court_level"], "date_filed": date_filed,
                 "year": year, "docket_id": row[CLUS["docket_id"]],
-                "nature_of_suit": d["nature_of_suit"],
+                "nature_of_suit": "443",
+                "nature_of_suit_raw": d["nature_of_suit"],
                 "judges": row[CLUS["judges"]],
                 "precedential_status": row[CLUS["precedential_status"]],
                 "citations": [], "opinion_ids": [],

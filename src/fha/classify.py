@@ -1,7 +1,9 @@
 """
 FHA case identification. rule_is_fha() is the deterministic rule used for the
 released corpus; an optional TF-IDF + logistic-regression classifier is
-available but off by default (use_ml=False).
+available but off by default (use_ml=False). The released paper reports the
+rule-positive population as a measurement frame, not as independently
+hand-validated adjudicated FHA merits cases.
 """
 from __future__ import annotations
 
@@ -10,7 +12,8 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from . import config
-from .reference import mentions_fha, find_fha_citations, NAMED_ACT
+from .reference import (mentions_fha, find_fha_citations, NAMED_ACT,
+                        CLAIM_LEXICON, REMEDY_LEXICON, is_nos443)
 
 # Federal civil cover-sheet code for "Civil Rights: Housing/Accommodations".
 HOUSING_NOS_CODES = {"443"}
@@ -19,9 +22,10 @@ HOUSING_NOS_CODES = {"443"}
 def rule_is_fha(rec: dict) -> bool:
     """Layer A: high-precision rule. True if the case is plausibly FHA-substantive.
 
-    A case qualifies if it (a) cites a core FHA section, OR (b) names the Act
-    AND is not merely a passing mention -- we require either a housing cover
-    sheet (NOS 443) or >=2 distinct FHA cues in the text.
+A case qualifies if it (a) cites a core FHA section, OR (b) names the Act
+AND is not merely a passing mention -- we require either a canonical NOS-443
+cover sheet or >=2 distinct FHA claim/remedy cues in the text. The released
+paper corpus applies the canonical NOS-443 filter before this rule.
     """
     text = rec.get("text", "") or ""
     nos = str(rec.get("nature_of_suit", "") or "")
@@ -29,19 +33,25 @@ def rule_is_fha(rec: dict) -> bool:
     if cites:
         return True
     named = bool(NAMED_ACT.search(text))
-    if named and any(code in nos for code in HOUSING_NOS_CODES):
+    if named and is_nos443(nos):
         return True
     # named + corroborating signal (claim/remedy language density)
     if named:
-        from .reference import CLAIM_LEXICON, score_cues
-        hits = sum(score_cues(text, pats) for pats in CLAIM_LEXICON.values())
+        from .reference import score_cues
+        hits = (sum(score_cues(text, pats) for pats in CLAIM_LEXICON.values()) +
+                sum(score_cues(text, pats) for pats in REMEDY_LEXICON.values()))
         return hits >= 2
     return False
 
 
-def weak_label_corpus(records: list[dict]) -> list[int]:
-    """Apply the rule to a corpus -> 0/1 weak labels for training Layer B."""
+def rule_label_corpus(records: list[dict]) -> list[int]:
+    """Apply the deterministic rule to a corpus -> 0/1 selection labels."""
     return [int(rule_is_fha(r)) for r in records]
+
+
+# Backward-compatible name for callers of the first release. The released
+# pipeline does not train a label model when use_ml=False.
+weak_label_corpus = rule_label_corpus
 
 
 @dataclass
@@ -84,15 +94,20 @@ class FHAClassifier:
 
 
 def build_clean_corpus(records: list[dict], *, use_ml: bool = True,
-                       min_text_len: int = 200) -> tuple[list[dict], dict]:
+                       min_text_len: int = 200,
+                       require_nos443: bool = False) -> tuple[list[dict], dict]:
     """End-to-end: produce the cleaned FHA-only dataset + a report.
 
     With enough labeled data we train Layer B and keep cases the rule OR the
     model flags (union recall) but require the model's probability for borderline
     rule-negatives. With too little data we fall back to the rule alone.
     """
-    rule = weak_label_corpus(records)
-    report = {"n_input": len(records), "n_rule_positive": sum(rule)}
+    rule = rule_label_corpus(records)
+    nos_ok = [is_nos443(r.get("nature_of_suit")) for r in records]
+    if require_nos443:
+        rule = [int(a and b) for a, b in zip(rule, nos_ok)]
+    report = {"n_input": len(records), "n_nos443": sum(nos_ok),
+              "n_rule_positive": sum(rule), "require_nos443": require_nos443}
     texts = [r.get("text", "") or "" for r in records]
 
     kept = []

@@ -29,7 +29,7 @@ def load_clean():
     recs = [json.loads(l) for l in
             (config.PROCESSED / "paper_corpus.jsonl").open() if l.strip()]
     recs = [r for r in recs if r.get("text")]
-    clean, _ = build_clean_corpus(recs, use_ml=False)
+    clean, _ = build_clean_corpus(recs, use_ml=False, require_nos443=True)
     return clean
 
 
@@ -39,16 +39,16 @@ def features(clean, negation):
 
 
 def summarize(feat):
-    pw = feat.plaintiff_win.dropna()
+    pw = feat.outcome_cue.dropna()
     return {
         "n": len(feat),
         "claim_shares": {c.replace("claim_", ""): round(float(feat[c].mean()), 4)
                          for c in CLAIMS},
         "framework": feat.burden_framework.value_counts(normalize=True)
                         .round(4).to_dict(),
-        "strictness_mean": round(float(feat.doctrinal_strictness.mean()), 4),
-        "plaintiff_win": round(float(pw.mean()), 4),
-        "n_holdings": int(len(pw)),
+        "legal_signal_mean": round(float(feat.doctrinal_strictness.mean()), 4),
+        "outcome_cue_rate": round(float(pw.mean()), 4),
+        "n_resolved_outcome_cues": int(len(pw)),
     }
 
 
@@ -86,30 +86,30 @@ def main():
                          - sens["baseline"]["claim_shares"][k], 4)
                 for k in sens["baseline"]["claim_shares"]}
     sens["delta_claim_shares_pp"] = d_claims
-    sens["delta_win_rate_pp"] = round(
-        sens["negation"]["plaintiff_win"] - sens["baseline"]["plaintiff_win"], 4)
-    sens["delta_strictness"] = round(
-        sens["negation"]["strictness_mean"] - sens["baseline"]["strictness_mean"], 4)
+    sens["delta_outcome_cue_rate"] = round(
+        sens["negation"]["outcome_cue_rate"] - sens["baseline"]["outcome_cue_rate"], 4)
+    sens["delta_legal_signal"] = round(
+        sens["negation"]["legal_signal_mean"] - sens["baseline"]["legal_signal_mean"], 4)
     json.dump(sens, (OUT / "negation_sensitivity.json").open("w"), indent=1)
     print("== negation sensitivity ==")
     print(" claim-share deltas (pp):", d_claims)
-    print(" win rate:", sens["baseline"]["plaintiff_win"], "->",
-          sens["negation"]["plaintiff_win"],
-          f"(n {sens['baseline']['n_holdings']} -> {sens['negation']['n_holdings']})")
-    print(" strictness:", sens["baseline"]["strictness_mean"], "->",
-          sens["negation"]["strictness_mean"])
+    print(" outcome-cue rate:", sens["baseline"]["outcome_cue_rate"], "->",
+          sens["negation"]["outcome_cue_rate"],
+          f"(n {sens['baseline']['n_resolved_outcome_cues']} -> {sens['negation']['n_resolved_outcome_cues']})")
+    print(" legal-signal breadth:", sens["baseline"]["legal_signal_mean"], "->",
+          sens["negation"]["legal_signal_mean"])
     print(" TWFE:", sens["baseline"]["twfe"], "->", sens["negation"]["twfe"])
 
     # ---- 2. FEII leave-one-out --------------------------------------------
-    rows = [{"spec": "baseline (filings+success+remedy)", **run_twfe(base)}]
-    for drop in ("filings", "plaintiff_success", "remedy_severity"):
-        w = {c: 0.25 for c in ("filings", "docket_share",
-                               "plaintiff_success", "remedy_severity")}
+    rows = [{"spec": "baseline (opinion-volume+outcome-cue+remedy-cue)", **run_twfe(base)}]
+    for drop in ("opinion_volume", "outcome_cue_rate", "remedy_cue_intensity"):
+        w = {c: 1 / 3 for c in ("opinion_volume", "outcome_cue_rate",
+                                "remedy_cue_intensity")}
         w[drop] = 0.0
         rows.append({"spec": f"drop {drop}", **run_twfe(base, weights=w)})
     loo = pd.DataFrame(rows)
     loo.to_csv(OUT / "feii_leave_one_out.csv", index=False)
-    print("\n== FEII leave-one-out TWFE ==")
+    print("\n== FEII component feasibility checks ==")
     print(loo.to_string(index=False))
 
     # ---- 3. era stability --------------------------------------------------
@@ -118,13 +118,13 @@ def main():
                          labels=["pre-2015", "2015-2019", "2020+"])
     recs_era = []
     for era, g in base.groupby("era", observed=True):
-        pw = g.plaintiff_win.dropna()
+        pw = g.outcome_cue.dropna()
         recs_era.append({
             "era": era, "n": len(g),
             **{c.replace("claim_", ""): round(float(g[c].mean()), 3) for c in CLAIMS},
-            "strictness": round(float(g.doctrinal_strictness.mean()), 3),
-            "win_rate": round(float(pw.mean()), 3) if len(pw) else None,
-            "n_holdings": int(len(pw)),
+            "legal_signal": round(float(g.doctrinal_strictness.mean()), 3),
+            "outcome_cue_rate": round(float(pw.mean()), 3) if len(pw) else None,
+            "n_resolved_outcome_cues": int(len(pw)),
         })
     era_df = pd.DataFrame(recs_era)
     era_df.to_csv(OUT / "era_stability.csv", index=False)
@@ -162,7 +162,7 @@ def main():
     for _, r in tt_df.iterrows():
         print(f" {r.regime} (n={r.n}): {r.top_terms}")
 
-    # ---- 5. case-mix-adjusted circuit strictness ---------------------------
+    # ---- 5. case-mix-adjusted circuit legal-signal breadth -----------------
     import statsmodels.formula.api as smf
     df = base.rename(columns={c: c.replace("claim_", "c_") for c in CLAIMS})
     cvars = [c.replace("claim_", "c_") for c in CLAIMS]
@@ -179,16 +179,16 @@ def main():
         m.params[v] * df[v].mean() for v in cvars)
     ra_only = base[base.claim_reasonable_accommodation == 1] \
         .groupby("circuit").doctrinal_strictness.mean()
-    out = pd.DataFrame({"raw": raw.round(3), "case_mix_adjusted": adj.round(3),
+    out = pd.DataFrame({"raw_legal_signal": raw.round(3), "case_mix_adjusted": adj.round(3),
                         "ra_only": ra_only.round(3)})
-    out["raw_rank"] = out.raw.rank(ascending=False).astype(int)
+    out["raw_rank"] = out.raw_legal_signal.rank(ascending=False).astype(int)
     out["adj_rank"] = out.case_mix_adjusted.rank(ascending=False).astype(int)
     out.to_csv(OUT / "circuit_casemix.csv")
     from scipy.stats import spearmanr
-    rho, _ = spearmanr(out.raw, out.case_mix_adjusted)
-    rho_ra, _ = spearmanr(out.raw.reindex(ra_only.index).dropna(),
+    rho, _ = spearmanr(out.raw_legal_signal, out.case_mix_adjusted)
+    rho_ra, _ = spearmanr(out.raw_legal_signal.reindex(ra_only.index).dropna(),
                           ra_only.dropna())
-    print("\n== circuit strictness: raw vs case-mix adjusted ==")
+    print("\n== circuit legal-signal breadth: raw vs case-mix adjusted ==")
     print(out.to_string())
     print(f" Spearman raw vs adjusted: {rho:.3f} | raw vs RA-only: {rho_ra:.3f}")
     json.dump({"spearman_raw_adj": round(float(rho), 3),

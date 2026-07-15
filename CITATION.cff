@@ -15,7 +15,7 @@ abstract: >-
   federal courts. The project harvests housing civil-rights opinions
   (Nature-of-Suit 443), identifies substantively-FHA cases via weak
   supervision, extracts claims, doctrinal frameworks, dispositions, and a
-  posture-strictness measure, induces doctrinal regimes through TF-IDF/LSA
+  rule-based legal-signal measure, induces doctrinal regimes through TF-IDF/LSA
   K-means clustering, and builds a circuit-by-year Federal Enforcement
   Intensity Index. It then links enforcement to residential segregation with
   two-way fixed-effects econometrics and wild-cluster-bootstrap inference,

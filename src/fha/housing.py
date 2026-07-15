@@ -1,7 +1,12 @@
 """
-Housing outcomes linked to circuits by geography: Census ACS Black-White
-dissimilarity (segregation) and HMDA denial rates, aggregated at the county
-level and population-weighted up to circuits.
+Housing outcomes linked to district-court circuits by geography.
+
+The ACS outcome is a county-level Black/White dissimilarity index computed
+from tract counts and then population-weighted to the circuit. It is not a
+single circuit-wide tract-level dissimilarity calculation. The paper uses
+non-overlapping ACS 5-year vintages so adjacent panel observations do not
+share four-fifths of their samples. HMDA denial rates are complementary and
+are not used as the estimated outcome.
 """
 from __future__ import annotations
 
@@ -69,38 +74,52 @@ class CensusClient:
         return pd.DataFrame(data[1:], columns=data[0])
 
 
-# ACS variables: non-Hispanic White alone, non-Hispanic Black alone, totals
+# ACS variables: non-Hispanic White alone, non-Hispanic Black alone, total
+# population from table B03002.
 SEG_VARS = ["B03002_003E", "B03002_004E", "B03002_001E"]
 RENT_VAR = "B25064_001E"        # median gross rent
 VALUE_VAR = "B25077_001E"       # median home value
+
+# Adjacent ACS 5-year estimates overlap by four-fifths. These separated
+# vintages are the default panel years used by the paper.
+NON_OVERLAP_ACS_YEARS = (2012, 2017, 2022)
 
 
 def dissimilarity_from_tracts(tracts: pd.DataFrame, area_col: str = "county") -> pd.DataFrame:
     """Black/White dissimilarity index per area from tract counts.
 
     D = 0.5 * sum_i | b_i/B - w_i/W |, computed within each area over its tracts.
+    B03002_003E and B03002_004E are non-Hispanic White alone and non-Hispanic
+    Black alone.
     """
     df = tracts.copy()
     df["white"] = pd.to_numeric(df["B03002_003E"], errors="coerce").clip(lower=0)
     df["black"] = pd.to_numeric(df["B03002_004E"], errors="coerce").clip(lower=0)
     df["pop"] = pd.to_numeric(df["B03002_001E"], errors="coerce").clip(lower=0)
     out = []
+    excluded = []
     for area, g in df.groupby(area_col):
         B, W = g["black"].sum(), g["white"].sum()
         if B <= 0 or W <= 0:
+            excluded.append({area_col: area, "black_total": float(B),
+                             "white_total": float(W),
+                             "reason": "undefined_dissimilarity_zero_group"})
             continue
         D = 0.5 * (np.abs(g["black"] / B - g["white"] / W)).sum()
         out.append({area_col: area, "dissimilarity_index": round(float(D), 4),
                     "population": int(g["pop"].sum())})
-    return pd.DataFrame(out)
+    result = pd.DataFrame(out)
+    result.attrs["excluded_zero_group_areas"] = pd.DataFrame(excluded)
+    return result
 
 
 def fetch_segregation_panel(years: list[int], states: list[str] | None = None,
                             key: str | None = None) -> pd.DataFrame:
-    """Live: circuit x year Black/White dissimilarity, pop-weighted from counties."""
+    """Live: circuit x year mean of county D values, weighted by county population."""
     cc = CensusClient(key)
     states = states or list(STATE_TO_CIRCUIT)
     rows = []
+    missingness = []
     for year in years:
         for st in states:
             fips = STATE_FIPS.get(st)
@@ -113,6 +132,13 @@ def fetch_segregation_panel(years: list[int], states: list[str] | None = None,
                 continue
             tr["county"] = tr["state"] + tr["county"]
             county_d = dissimilarity_from_tracts(tr, area_col="county")
+            excluded = county_d.attrs.get("excluded_zero_group_areas",
+                                           pd.DataFrame())
+            missingness.append({
+                "year": year,
+                "state": st,
+                "n_counties_excluded_zero_group": int(len(excluded)),
+            })
             county_d["circuit"] = STATE_TO_CIRCUIT[st]
             rows.append(county_d.assign(year=year, state=st))
     if not rows:
@@ -125,6 +151,7 @@ def fetch_segregation_panel(years: list[int], states: list[str] | None = None,
     panel = (allc.groupby(["circuit", "year"])
              .apply(wavg, include_groups=False)
              .reset_index(name="dissimilarity_index"))
+    panel.attrs["missingness_audit"] = pd.DataFrame(missingness)
     return panel
 
 
@@ -167,7 +194,7 @@ def load_housing_panel(real: bool = False, years: list[int] | None = None,
             from . import synth
             synth.generate()
         return pd.read_csv(p)
-    years = years or list(range(2012, 2023))
+    years = years or list(NON_OVERLAP_ACS_YEARS)
     seg = fetch_segregation_panel(years, states)
     try:
         hm = HMDAClient().denial_rates(years[-1], states or list(STATE_TO_CIRCUIT))

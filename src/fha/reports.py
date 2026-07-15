@@ -116,24 +116,22 @@ def law_in_action_gap(features: pd.DataFrame, panel: pd.DataFrame,
 
 
 def write_summary(report: dict) -> str:
-    """Dump a human-readable run summary to outputs/SUMMARY.md."""
-    def _df_md(df: pd.DataFrame) -> str:
-        try:
-            return df.to_markdown(index=False)   # needs tabulate
-        except ImportError:
-            return "```\n" + df.to_string(index=False) + "\n```"
-
+    """Write only the run facts needed to reproduce the paper boundary."""
+    run = report.get("Run", {})
+    twfe = report.get("Step 7 TWFE (FEII -> segregation)", {})
     lines = ["# FHA federal-courts pipeline -- run summary", ""]
-    for k, v in report.items():
-        lines.append(f"## {k}")
-        if isinstance(v, pd.DataFrame):
-            lines.append(_df_md(v))
-        elif isinstance(v, dict):
-            for kk, vv in v.items():
-                lines.append(f"- **{kk}**: {vv}")
-        else:
-            lines.append(str(v))
-        lines.append("")
+    if run:
+        lines.extend([
+            f"- source: {run.get('source')}",
+            f"- cases: {run.get('cases')}",
+            f"- FEII cells: {run.get('FEII cells')}",
+            f"- housing panel rows: {run.get('panel rows')}",
+        ])
+    if isinstance(twfe, dict) and twfe.get("note"):
+        lines.append(f"- real-data inference: not estimated ({twfe['note']})")
+    elif isinstance(twfe, dict):
+        lines.append("- estimator check: completed on a synthetic or feasible panel")
+    lines.append("")
     out = config.OUTPUTS / "SUMMARY.md"
     out.write_text("\n".join(lines))
     return str(out)

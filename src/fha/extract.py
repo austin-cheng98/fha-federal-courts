@@ -1,13 +1,14 @@
 """
-Structured legal-variable extraction: claim labels, burden-shifting
-framework, disposition/plaintiff_win, remedies, and the derived
-enforcement_strength and doctrinal_strictness scores. Lexicon/rule based,
-with an optional negation-scoping mode.
+Structured legal-variable extraction: textual indicators, burden-shifting
+framework, directional outcome cues, remedies, and derived enforcement and
+legal-signal scores. Deterministic lexicon/rule based, with an optional
+negation-scoping mode and inspectable match spans in the feature output.
 """
 from __future__ import annotations
 
 import pickle
 import re
+import json
 from pathlib import Path
 
 import pandas as pd
@@ -46,14 +47,39 @@ def _hit(rx, text: str, negation: bool = False) -> bool:
     return False
 
 
-# claim labels
+def _span_hits(rx, text: str, negation: bool = False) -> list[dict]:
+    """Return inspectable character offsets for the rule hits used in a flag."""
+    out = []
+    for m in rx.finditer(text or ""):
+        if negation and _NEG_RX.search(text[max(0, m.start() - 90):m.start()]):
+            continue
+        out.append({"start": m.start(), "end": m.end(),
+                    "text": m.group(0)[:160]})
+    return out
+
+
+def _json_spans(spans: list[dict]) -> str:
+    return json.dumps(spans, ensure_ascii=False, separators=(",", ":"))
+
+
+# Textual indicators. These are deliberately multi-label and are separated
+# below into proof/duty indicators and conduct indicators; they are not a
+# mutually exclusive cause-of-action taxonomy.
 def extract_claims(text: str, negation: bool = False) -> dict[str, int]:
-    return {f"claim_{k}": int(_hit(rx, text, negation)) for k, rx in _CLAIM_RX.items()}
+    out = {}
+    for k, rx in _CLAIM_RX.items():
+        out[f"claim_{k}"] = int(_hit(rx, text, negation))
+        out[f"claim_{k}_spans"] = _json_spans(_span_hits(rx, text, negation))
+    return out
 
 
 # reasoning structure
 def extract_reasoning(text: str, negation: bool = False) -> dict:
-    flags = {f"reason_{k}": int(_hit(rx, text, negation)) for k, rx in _REASON_RX.items()}
+    flags = {}
+    evidence = {}
+    for k, rx in _REASON_RX.items():
+        flags[f"reason_{k}"] = int(_hit(rx, text, negation))
+        evidence[f"reason_{k}_spans"] = _json_spans(_span_hits(rx, text, negation))
     # burden-shifting framework actually invoked
     if flags["reason_hud_burden_shifting"]:
         framework = "hud_three_step"
@@ -86,6 +112,7 @@ def extract_reasoning(text: str, negation: bool = False) -> dict:
         "proof_standard": standard,
         "precedent_treatment": precedent,
         "n_precedent_cites": n_cites,
+        **evidence,
     }
 
 
@@ -107,9 +134,9 @@ def extract_outcomes(text: str, court_level: str | None = None,
     # rulings; scoring them as a clean win is wrong, so flag + leave undetermined.
     mixed = bool(re.search(r"\bin\s+part\b", tail, re.IGNORECASE)) and pro_p > 0 and pro_d > 0
     if mixed or pro_p == pro_d == 0:
-        plaintiff_win = None              # undetermined / genuinely split
+        outcome_cue = None               # undetermined / genuinely split
     else:
-        plaintiff_win = int(pro_p > pro_d)
+        outcome_cue = int(pro_p > pro_d)
 
     affirm = score_cues(tail, AFFIRM_CUES)
     reverse = score_cues(tail, REVERSAL_CUES)
@@ -120,16 +147,27 @@ def extract_outcomes(text: str, court_level: str | None = None,
         else:
             reversal = int(reverse > affirm)
 
-    remedies = {f"remedy_{k}": int(_hit(rx, text, negation)) for k, rx in _REMEDY_RX.items()}
+    remedies = {}
+    for k, rx in _REMEDY_RX.items():
+        remedies[f"remedy_{k}"] = int(_hit(rx, text, negation))
+        remedies[f"remedy_{k}_spans"] = _json_spans(_span_hits(rx, text, negation))
     settlement = int(score_cues(text, SETTLEMENT_INFERENCE_CUES) > 0)
     return {
-        "plaintiff_win": plaintiff_win,
+        # This is a directional text cue, not a party-role-resolved judgment.
+        "outcome_cue": outcome_cue,
+        "plaintiff_win": outcome_cue,   # legacy alias; not used by FEII
         "disposition_mixed": int(mixed),
         "pro_plaintiff_cues": round(pro_p, 2),
         "pro_defendant_cues": round(pro_d, 2),
         "appellate_reversal": reversal,
         **remedies,
         "settlement_inferred": settlement,
+        "outcome_evidence": json.dumps({
+            "plaintiff": [x for pats in PLAINTIFF_WIN_CUES
+                          for x in _span_hits(re.compile(pats, re.IGNORECASE), tail)],
+            "defendant": [x for pats in DEFENDANT_WIN_CUES
+                          for x in _span_hits(re.compile(pats, re.IGNORECASE), tail)],
+        }, ensure_ascii=False, separators=(",", ":")),
     }
 
 
@@ -137,7 +175,7 @@ def extract_outcomes(text: str, court_level: str | None = None,
 def enforcement_strength(row: dict) -> float:
     """Per-case pro-enforcement proxy in [0,1]. Feeds FEII."""
     s = 0.0
-    if row.get("plaintiff_win") == 1:
+    if row.get("outcome_cue") == 1:
         s += 0.45
     # broader remedies => stronger enforcement
     s += 0.12 * row.get("remedy_injunction", 0)
@@ -150,11 +188,13 @@ def enforcement_strength(row: dict) -> float:
     return round(min(s, 1.0), 3)
 
 
-def doctrinal_strictness(row: dict) -> float:
-    """Posture measure of how broadly the court read the FHA, from interpretation
-    signals only (liability theory, burden framework, precedent engagement).
-    Excludes remedy and who-won so it is independent of enforcement_strength
-    and of the outcome.
+def doctrinal_breadth_score(row: dict) -> float:
+    """Rule-based legal-signal score, not a court-favorability measure.
+
+    The score summarizes detected liability theories, burden-framework terms,
+    accommodation language, and precedent engagement. It is correlated with
+    procedural posture and is therefore described as a breadth/legal-signal
+    score rather than pure doctrinal strictness.
     """
     s = 0.0
     s += 0.35 * row.get("claim_disparate_impact", 0)     # broad liability theory
@@ -163,6 +203,11 @@ def doctrinal_strictness(row: dict) -> float:
     s += 0.10 * (1 if row.get("precedent_treatment") == "explicit_heavy" else 0)
     s += 0.10 * (1 if row.get("burden_framework") != "none_explicit" else 0)
     return round(min(s, 1.0), 3)
+
+
+def doctrinal_strictness(row: dict) -> float:
+    """Backward-compatible alias for :func:`doctrinal_breadth_score`."""
+    return doctrinal_breadth_score(row)
 
 
 # main entry points
@@ -186,10 +231,20 @@ def extract_case(rec: dict, negation: bool = False) -> dict:
         "text_len": rec.get("text_len", len(text)),
     }
     out.update(extract_claims(text, negation))
+    # Keep the analytic layers explicit even though the source regexes remain
+    # backward-compatible under claim_* names.
+    out["proof_treatment"] = out["claim_disparate_treatment"]
+    out["proof_impact"] = out["claim_disparate_impact"]
+    out["duty_accommodation"] = out["claim_reasonable_accommodation"]
+    out["conduct_refusal_steering"] = out["claim_refusal_rent_sell"]
+    out["conduct_zoning_land_use"] = out["claim_zoning_exclusionary"]
     out.update(extract_reasoning(text, negation))
     out.update(extract_outcomes(text, rec.get("court_level"), negation))
     out["enforcement_strength"] = enforcement_strength(out)
-    out["doctrinal_strictness"] = doctrinal_strictness(out)
+    out["doctrinal_breadth"] = doctrinal_breadth_score(out)
+    out["legal_signal_score"] = out["doctrinal_breadth"]
+    # Retain the legacy column so existing downstream scripts continue to run.
+    out["doctrinal_strictness"] = out["doctrinal_breadth"]
     return out
 
 

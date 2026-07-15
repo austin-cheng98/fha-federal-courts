@@ -47,14 +47,17 @@ def _degeneracy_note(panel: pd.DataFrame, n_regressors: int) -> dict | None:
     return None
 
 
-# Cluster-robust inference referenced to t(G-1), not the normal -- essential
-# with the ~12 federal circuits, where the z-reference is badly anti-conservative.
+# Cluster-robust inference is referenced to t(G-1); the normal reference is
+# unreliable with only ~12 federal circuits.
 _CLUSTER = lambda g: {"groups": g, "use_t": True}
 
 
 def twfe(panel: pd.DataFrame, y: str, x: str = "FEII",
          controls: list[str] | None = None, cluster: str = "unit") -> dict:
-    """7.1 core regression: two-way FE, cluster-robust SE (t(G-1) reference)."""
+    """Two-way FE with no controls unless explicitly supplied by the caller.
+
+    The paper's headline specification is ``y ~ FEII + C(unit) + C(year)``.
+    """
     guard = _degeneracy_note(panel, 1 + (len(controls) if controls else 0))
     if guard:
         guard.update({"model": "twfe", "y": y, "x": x, "controls": controls or []})
@@ -191,10 +194,11 @@ def circuit_compare(features: pd.DataFrame, panel: pd.DataFrame,
     mechanical: mean_FEII and mean_{y} are circuit means of series that already
     co-move by construction. Treat as exploratory only.
     """
+    outcome_col = "outcome_cue" if "outcome_cue" in features.columns else "plaintiff_win"
     by_circ = (features.groupby("circuit")
                .agg(n_cases=("cluster_id", "count"),
                     mean_strictness=("doctrinal_strictness", "mean"),
-                    plaintiff_success=("plaintiff_win", lambda s: s.dropna().mean()),
+                    outcome_cue_rate=(outcome_col, lambda s: s.dropna().mean()),
                     share_disparate_impact=("claim_disparate_impact", "mean"))
                .reset_index())
     outcome = panel.groupby("unit")[[y, "FEII"]].mean().reset_index()

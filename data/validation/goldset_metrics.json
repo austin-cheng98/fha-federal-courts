@@ -1,84 +1,84 @@
 {
- "n_cases": 120,
+ "n_cases": 93,
  "claims": [
   {
    "variable": "claim_disparate_treatment",
-   "prevalence_human": 0.517,
-   "precision": 0.852,
-   "recall": 0.742,
-   "f1": 0.793,
-   "kappa": 0.601
+   "prevalence_human": 0.581,
+   "precision": 0.907,
+   "recall": 0.722,
+   "f1": 0.804,
+   "kappa": 0.596
   },
   {
    "variable": "claim_disparate_impact",
-   "prevalence_human": 0.158,
-   "precision": 0.429,
-   "recall": 0.947,
-   "f1": 0.59,
-   "kappa": 0.476
+   "prevalence_human": 0.129,
+   "precision": 0.407,
+   "recall": 0.917,
+   "f1": 0.564,
+   "kappa": 0.469
   },
   {
    "variable": "claim_refusal_rent_sell",
    "prevalence_human": 0.333,
-   "precision": 0.694,
-   "recall": 0.625,
-   "f1": 0.658,
-   "kappa": 0.5
+   "precision": 0.731,
+   "recall": 0.613,
+   "f1": 0.667,
+   "kappa": 0.521
   },
   {
    "variable": "claim_reasonable_accommodation",
-   "prevalence_human": 0.333,
-   "precision": 0.5,
-   "recall": 1.0,
-   "f1": 0.667,
-   "kappa": 0.4
+   "prevalence_human": 0.387,
+   "precision": 0.829,
+   "recall": 0.944,
+   "f1": 0.883,
+   "kappa": 0.801
   },
   {
    "variable": "claim_zoning_exclusionary",
-   "prevalence_human": 0.133,
-   "precision": 0.457,
-   "recall": 1.0,
-   "f1": 0.627,
-   "kappa": 0.544
+   "prevalence_human": 0.161,
+   "precision": 0.8,
+   "recall": 0.8,
+   "f1": 0.8,
+   "kappa": 0.762
   },
   {
    "variable": "claims_micro",
-   "prevalence_human": 0.295,
-   "precision": 0.587,
-   "recall": 0.819,
-   "f1": 0.684,
-   "kappa": 0.518
+   "prevalence_human": 0.318,
+   "precision": 0.757,
+   "recall": 0.777,
+   "f1": 0.767,
+   "kappa": 0.656
   }
  ],
- "framework_accuracy": 0.758,
- "framework_kappa": 0.488,
+ "framework_accuracy": 0.774,
+ "framework_kappa": 0.474,
  "holding_detection": {
-  "precision": 0.652,
-  "recall": 0.551,
-  "f1": 0.597,
-  "n_human_holdings": 78,
-  "n_machine_holdings": 66
+  "precision": 0.712,
+  "recall": 0.587,
+  "f1": 0.643,
+  "n_human_holdings": 63,
+  "n_machine_holdings": 52
  },
  "winner_on_machine_holdings": {
-  "n_machine_holdings": 66,
+  "n_machine_holdings": 52,
   "human_label_distribution": {
-   "D": 26,
-   "P": 17,
-   "unclear": 13,
-   "mixed": 10
+   "D": 21,
+   "P": 16,
+   "mixed": 8,
+   "unclear": 7
   },
-  "n_both_decisive": 43,
-  "binary_accuracy": 0.791,
-  "binary_kappa": 0.558,
-  "machine_win_rate": 0.348,
-  "human_win_rate_same_cases": 0.395
+  "n_both_decisive": 37,
+  "binary_accuracy": 0.811,
+  "binary_kappa": 0.606,
+  "machine_win_rate": 0.346,
+  "human_win_rate_same_cases": 0.432
  },
  "corpus_win_rate": {
-  "rate": 0.348,
-  "n": 66,
+  "rate": 0.358,
+  "n": 53,
   "wilson95": [
-   0.244,
-   0.468
+   0.243,
+   0.493
   ]
  },
  "inter_annotator": {

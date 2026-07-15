@@ -53,7 +53,8 @@ def run(source: str = "synthetic", live_kwargs: dict | None = None,
 
     # collect + identify (clean FHA-only corpus)
     raw = collect_corpus(source, live_kwargs)
-    clean, id_report = build_clean_corpus(raw, use_ml=(source != "synthetic"))
+    clean, id_report = build_clean_corpus(
+        raw, use_ml=False, require_nos443=(source != "synthetic"))
     if source == "synthetic":          # synthetic corpus is all FHA by construction
         clean = raw
         id_report["n_kept"] = len(clean)
@@ -99,14 +100,19 @@ def run(source: str = "synthetic", live_kwargs: dict | None = None,
     panel = ec.build_panel(panel_feii, hp)
     panel.to_csv(config.PROCESSED / "analysis_panel.csv", index=False)
     twfe_res = ec.twfe(panel, y=OUTCOME, x="FEII")
-    # With only ~12 circuit clusters the t(G-1) p-value is unreliable; the wild
-    # cluster bootstrap is the trustworthy headline inference. Skip on degenerate
-    # panels (tiny real corpus) where twfe already returned a note.
+    # A thin real panel is a feasibility result, not an estimand. Keep the
+    # seeded synthetic estimator check, but do not manufacture downstream
+    # event-study or DiD outputs when the FE guard returns a note.
     if "note" not in twfe_res:
         report["step7_twfe_wild_bootstrap"] = ec.wild_cluster_bootstrap(
             panel, y=OUTCOME, x="FEII", B=999)
-    es = ec.event_study(panel, y=OUTCOME, shock_year=SHOCK_YEAR)
-    did2 = ec.did_2x2(panel, y=OUTCOME, shock_year=SHOCK_YEAR)
+        es = ec.event_study(panel, y=OUTCOME, shock_year=SHOCK_YEAR)
+        did2 = ec.did_2x2(panel, y=OUTCOME, shock_year=SHOCK_YEAR)
+    else:
+        es = pd.DataFrame(columns=["k", "coef", "se", "ci_low", "ci_high"])
+        es.attrs["note"] = "not estimated: housing panel failed the FE feasibility guard"
+        did2 = {"model": "did_2x2",
+                "note": "not estimated: housing panel failed the FE feasibility guard"}
     cc = ec.circuit_compare(feat, panel, y=OUTCOME)
     report["step7_twfe"] = twfe_res
     report["step7_did_2x2"] = did2

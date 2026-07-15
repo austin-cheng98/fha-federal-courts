@@ -1,7 +1,8 @@
 """
-Synthetic data generator for offline validation (outputs namespaced
-synthetic_*). Embeds a known causal chain with BETA_TRUE so the estimators
-can be checked against ground truth.
+Synthetic data generator for offline estimator/plumbing checks (outputs
+namespaced synthetic_*). It embeds a known coefficient so the estimator can
+be checked against an oracle latent regressor; it is not evidence for causal
+identification in the real housing panel.
 """
 from __future__ import annotations
 
@@ -233,7 +234,8 @@ def generate(n_cases: int = 9000, year_min: int = 2000, year_max: int = 2023,
     for c in CIRCUITS:
         for y in range(year_min, year_max + 1):
             s = _latent_strictness(c, y, housing_rng, circ_fe, shock)
-            # baseline segregation index ~0.55, pushed down by enforcement
+            # baseline segregation index ~0.55, pushed down by enforcement;
+            # this coefficient is a software-test truth, not an empirical claim.
             seg = 0.55 + a_c[c] + d_t[y] + BETA_TRUE * (s - 0.5) + housing_rng.gauss(0, 0.025)
             rows.append({"circuit": c, "year": y,
                          "dissimilarity_index": round(seg, 4),

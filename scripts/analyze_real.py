@@ -35,7 +35,7 @@ def main():
     print(f"full-text federal FHA opinions: {len(recs)} "
           f"(Seicshnaydre 2013 = 92; pharma-ML = 698)")
 
-    clean, idrep = build_clean_corpus(recs, use_ml=False)
+    clean, idrep = build_clean_corpus(recs, use_ml=False, require_nos443=True)
     feat = extract_corpus(clean)
     feat = feat[feat.circuit.notna() & feat.year.notna()].reset_index(drop=True)
     print(f"confirmed FHA-substantive: {len(feat)}")
@@ -57,33 +57,33 @@ def main():
     if have_housing:
         hp = pd.read_csv(hp_path)
         panel = ec.build_panel(pf, hp)
-        if len(panel) >= 12:
-            econ = ec.twfe(panel, y=OUTCOME, x="FEII")
-            if "note" not in econ:
-                econ["wild"] = ec.wild_cluster_bootstrap(panel, y=OUTCOME, x="FEII", B=499)
+        econ = ec.twfe(panel, y=OUTCOME, x="FEII")
+        if "note" not in econ:
+            econ["wild"] = ec.wild_cluster_bootstrap(panel, y=OUTCOME, x="FEII", B=999)
 
     # ---- report ----
     print("\n--- CLAIM MIX (share of cases) ---")
-    for c in [x for x in feat if x.startswith("claim_")]:
+    for c in [x for x in feat if x.startswith("claim_") and not x.endswith("_spans")]:
         print(f"  {c.replace('claim_',''):24} {feat[c].mean():5.0%}")
 
-    pw = feat.plaintiff_win.dropna()
+    pw = feat.outcome_cue.dropna()
     print(f"\n--- OUTCOMES ---")
-    print(f"  plaintiff win rate: {pw.mean():.0%} (n={len(pw)} clear holdings) "
-          f"| Seicshnaydre benchmark: {SEICSHNAYDRE_WINRATE:.0%}")
+    print(f"  pro-plaintiff outcome-cue rate: {pw.mean():.0%} "
+          f"(n={len(pw)} resolved outcome cues; party roles not resolved)")
     print(f"  burden frameworks: {feat.burden_framework.value_counts().to_dict()}")
     print(f"  remedies: injunction {feat.remedy_injunction.mean():.0%}, "
           f"damages {feat.remedy_damages.mean():.0%}")
 
     print(f"\n--- DOCTRINAL REGIMES (clustered on opinion text) ---")
     print(f"  {s4['cluster_info']['sizes']}")
-    print(f"  mean strictness/regime: {s4['cluster_info']['mean_strictness_by_regime']}")
+    print(f"  mean legal-signal breadth/regime: {s4['cluster_info']['mean_strictness_by_regime']}")
 
-    print(f"\n--- CIRCUIT-LEVEL DOCTRINAL VARIATION (core deliverable) ---")
+    print(f"\n--- CIRCUIT-AGGREGATED DISTRICT-COURT INDICATORS ---")
     g = (feat.groupby("circuit")
-         .agg(n=("cluster_id", "count"), strictness=("doctrinal_strictness", "mean"),
-              impact=("claim_disparate_impact", "mean"),
-              win=("plaintiff_win", lambda s: s.dropna().mean())).round(2))
+         .agg(n=("cluster_id", "count"), legal_signal=("doctrinal_strictness", "mean"),
+              proof_impact=("proof_impact", "mean"),
+              duty_accommodation=("duty_accommodation", "mean"),
+              outcome_cues=("outcome_cue", lambda s: s.dropna().mean())).round(2))
     print(g.sort_values("n", ascending=False).to_string())
 
     print(f"\n--- ENFORCEMENT INTENSITY (FEII) ---")
@@ -91,8 +91,8 @@ def main():
 
     print(f"\n--- HOUSING-OUTCOME LINK (Step 7) ---")
     if econ is None:
-        print("  panel too thin to estimate (expected at this N / G=12) — "
-              "descriptive results above are the substantive findings")
+        print("  no real-panel coefficient reported: non-overlapping ACS vintages "
+              "leave only one matched year and eight circuit cells")
     elif "note" in econ:
         print(f"  {econ['note']}")
     else:

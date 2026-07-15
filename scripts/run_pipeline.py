@@ -45,11 +45,15 @@ def main():
     print(f"source={rep['source']}  cases={rep['step3_n_cases']}  "
           f"FEII cells={rep['step5_feii_cells']}")
     t = rep["step7_twfe"]
-    print(f"\n[Step 7] TWFE  outcome ~ FEII  (circuit+year FE, cluster SE)")
-    print(f"         coef={t['coef']:+.4f}  se={t['se']:.4f}  "
-          f"p={t['p']:.4f}  n={t['n']}")
-    d = rep["step7_did_2x2"]
-    print(f"[Step 7] DiD 2x2 treated:post  coef={d['coef']:+.4f}  p={d['p']:.4f}")
+    print("\n[Step 7] Housing-link feasibility")
+    if t.get("note"):
+        print(f"         {t['note']}; no real-data coefficient reported")
+    else:
+        print(f"         TWFE coef={t['coef']:+.4f}  se={t['se']:.4f}  "
+              f"p={t['p']:.4f}  n={t['n']}")
+    d = rep.get("step7_did_2x2", {})
+    if d.get("note"):
+        print(f"         {d['note']}")
     print(f"\nOutputs in {rep['outputs_dir']}/  (tables, figures, SUMMARY.md)")
 
 
