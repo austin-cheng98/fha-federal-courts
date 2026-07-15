@@ -1,10 +1,4 @@
 #!/usr/bin/env python3
-"""
-Score the 93-case enriched/choice-based canonical-corpus overlap (machine vs
-hand coding) and inter-annotator reliability from the 30-case second pass.
-Reads data/validation/, writes
-outputs/paper/validation/.
-"""
 import json
 import sys
 from pathlib import Path
@@ -14,12 +8,12 @@ import pandas as pd
 from sklearn.metrics import precision_recall_fscore_support, cohen_kappa_score
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
-from fha import config  # noqa: E402
-from fha.extract import extract_case  # noqa: E402
-from fha.classify import build_clean_corpus  # noqa: E402
+from fha import config
+from fha.extract import extract_case
+from fha.classify import build_clean_corpus
 
 S = str(Path(__file__).resolve().parents[1] / "data" / "validation")
-OUT = config.OUTPUTS / "paper" / "validation"
+OUT = config.OUTPUTS / "validation"
 OUT.mkdir(parents=True, exist_ok=True)
 
 CLAIMS = ["disparate_treatment", "disparate_impact", "refusal_rent_sell",
@@ -41,8 +35,8 @@ def main():
     human = json.load(open(f"{S}/gold_human_codings.json"))
     prim = {c["case_id"]: c for c in human["primary"]}
     sec = {c["case_id"]: c for c in human["second"]}
-    # Regenerate machine labels from the current extractor so validation never
-    # silently scores a stale CSV after a rule or lexicon change.
+
+
     corpus = {r["cluster_id"]: r for r in
               (json.loads(l) for l in open(config.PROCESSED / "paper_corpus.jsonl")
                if l.strip())}
@@ -59,13 +53,13 @@ def main():
                 "claim_reasonable_accommodation", "burden_framework",
                 "outcome_cue", "doctrinal_strictness"]}})
     ml = pd.DataFrame(ml_rows).set_index("cluster_id")
-    ml.to_csv(f"{S}/gold_machine_labels.csv")
+    ml.to_csv(OUT / "gold_machine_labels.csv")
     ids = [i for i in ml.index if i in prim]
     print(f"scored cases: {len(ids)} (machine ∩ human primary)")
 
     res = {"n_cases": len(ids)}
 
-    # ---- claims: machine vs human (human = reference) ----
+
     rows = []
     for c in CLAIMS:
         y_true = np.array([prim[i]["claims"][c] for i in ids])
@@ -76,7 +70,7 @@ def main():
         rows.append({"variable": f"claim_{c}", "prevalence_human": round(y_true.mean(), 3),
                      "precision": round(p, 3), "recall": round(r, 3),
                      "f1": round(f, 3), "kappa": round(k, 3)})
-    # micro over all claim decisions
+
     yt = np.array([[prim[i]["claims"][c] for c in CLAIMS] for i in ids]).ravel()
     yp = np.array([[int(ml.loc[i, f"claim_{c}"]) for c in CLAIMS] for i in ids]).ravel()
     mp, mr, mf, _ = precision_recall_fscore_support(yt, yp, average="binary", zero_division=0)
@@ -85,7 +79,7 @@ def main():
                  "f1": round(mf, 3), "kappa": round(cohen_kappa_score(yt, yp), 3)})
     res["claims"] = rows
 
-    # ---- framework ----
+
     def m_fw(i):
         return FW.get(str(ml.loc[i, "burden_framework"]), "none")
     correct = 0
@@ -95,20 +89,20 @@ def main():
         ok = (m == h) or (h == "both" and m in ("hud", "mcdonnell"))
         correct += ok
     res["framework_accuracy"] = round(correct / len(ids), 3)
-    # kappa on the 3 machine-expressible categories (drop human "both")
+
     hh = [prim[i]["framework"] for i in ids if prim[i]["framework"] != "both"]
     mm = [m_fw(i) for i in ids if prim[i]["framework"] != "both"]
     res["framework_kappa"] = round(cohen_kappa_score(hh, mm), 3)
 
-    # ---- winner / disposition ----
+
     def h_win(i):
-        return {"P": 1, "D": 0}.get(prim[i]["winner"], None)  # mixed/unclear -> None
+        return {"P": 1, "D": 0}.get(prim[i]["winner"], None)
 
     def m_win(i):
         v = ml.loc[i, "outcome_cue"]
         return None if pd.isna(v) else int(v)
 
-    # holding detection: does machine flag a decisive holding where a human sees one
+
     hd = np.array([h_win(i) is not None for i in ids])
     md = np.array([m_win(i) is not None for i in ids])
     p, r, f, _ = precision_recall_fscore_support(hd, md, average="binary", zero_division=0)
@@ -116,7 +110,7 @@ def main():
                                 "f1": round(f, 3), "n_human_holdings": int(hd.sum()),
                                 "n_machine_holdings": int(md.sum())}
 
-    # among the machine's holdings: human distribution + win-rate check
+
     m_hold = [i for i in ids if m_win(i) is not None]
     hd_dist = pd.Series([prim[i]["winner"] for i in m_hold]).value_counts().to_dict()
     both_dec = [i for i in m_hold if h_win(i) is not None]
@@ -135,10 +129,10 @@ def main():
         "human_win_rate_same_cases": round(float(h_wr), 3),
     }
 
-    # Win rate and interval from the current canonical full-text corpus.
+
     full = [json.loads(l) for l in
             open(config.PROCESSED / "paper_corpus.jsonl") if l.strip()]
-    full_clean, _ = build_clean_corpus(full, use_ml=False, require_nos443=True)
+    full_clean, _ = build_clean_corpus(full, require_nos443=True)
     full_feat = pd.DataFrame(extract_case(r) for r in full_clean)
     full_feat = full_feat[full_feat.circuit.notna() & full_feat.year.notna()]
     full_pw = full_feat["outcome_cue"].dropna()
@@ -146,15 +140,15 @@ def main():
     res["corpus_win_rate"] = {"rate": round(full_rate, 3), "n": int(len(full_pw)),
                               "wilson95": wilson(full_rate, int(len(full_pw)))}
 
-    # ---- inter-annotator reliability (second pass vs primary) ----
+
     sp = [i for i in sec if i in prim]
-    # claims (pooled over 5 labels)
+
     a = np.array([[prim[i]["claims"][c] for c in CLAIMS] for i in sp]).ravel()
     b = np.array([[sec[i]["claims"][c] for c in CLAIMS] for i in sp]).ravel()
-    # framework (drop nothing; 4-way)
+
     fa = [prim[i]["framework"] for i in sp]
     fb = [sec[i]["framework"] for i in sp]
-    # winner 4-way and decisive-binary
+
     wa = [prim[i]["winner"] for i in sp]
     wb = [sec[i]["winner"] for i in sp]
     dec = [i for i in sp if h_win(i) is not None and
@@ -176,7 +170,7 @@ def main():
     json.dump(res, (OUT / "goldset_metrics.json").open("w"), indent=1)
     pd.DataFrame(rows).to_csv(OUT / "goldset_precision_recall.csv", index=False)
 
-    # console summary
+
     print("\n== CLAIMS (machine vs hand; hand = reference) ==")
     print(pd.DataFrame(rows).to_string(index=False))
     print(f"\n== FRAMEWORK ==  accuracy {res['framework_accuracy']}  kappa {res['framework_kappa']}")

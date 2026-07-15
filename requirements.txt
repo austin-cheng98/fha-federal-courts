@@ -1,26 +1,6 @@
-# Core runtime dependencies for the FHA federal-courts pipeline.
-# Python >=3.11 (tested through 3.14). No GPU needed: the default doctrinal
-# pipeline is TF-IDF -> LSA -> K-means; legal-BERT is an optional extra.
 numpy
 pandas
 scipy
 scikit-learn
 statsmodels
-requests
-matplotlib
-tabulate
-
-# ---------------------------------------------------------------------------
-# Optional extras (install only if you need them):
-#
-#   # legal-BERT opinion embeddings instead of TF-IDF (GPU recommended)
-#   pip install torch transformers
-#
-#
-#   # test suite
-#   pip install pytest
-#
-# Or install everything via the package extras:
-#   pip install -e ".[dev]"      # pytest
-#   pip install -e ".[gpu]"      # torch, transformers
-# ---------------------------------------------------------------------------
+pytest

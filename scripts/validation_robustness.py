@@ -1,9 +1,4 @@
 #!/usr/bin/env python3
-"""
-Validation and robustness suite. Writes outputs/paper/validation/:
-negation_sensitivity.json, feii_leave_one_out.csv, era_stability.csv,
-regime_top_terms.csv, circuit_casemix.csv.
-"""
 import json
 import sys
 from pathlib import Path
@@ -13,11 +8,11 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from fha import config, feii, econometrics as ec  # noqa: E402
-from fha.classify import build_clean_corpus       # noqa: E402
-from fha.extract import extract_corpus            # noqa: E402
+from fha import config, feii, econometrics as ec
+from fha.classify import build_clean_corpus
+from fha.extract import extract_corpus
 
-OUT = config.OUTPUTS / "paper" / "validation"
+OUT = config.OUTPUTS / "validation"
 OUT.mkdir(parents=True, exist_ok=True)
 
 CLAIMS = ["claim_disparate_treatment", "claim_disparate_impact",
@@ -29,7 +24,7 @@ def load_clean():
     recs = [json.loads(l) for l in
             (config.PROCESSED / "paper_corpus.jsonl").open() if l.strip()]
     recs = [r for r in recs if r.get("text")]
-    clean, _ = build_clean_corpus(recs, use_ml=False, require_nos443=True)
+    clean, _ = build_clean_corpus(recs, require_nos443=True)
     return clean
 
 
@@ -66,22 +61,20 @@ def run_twfe(feat, weights=None):
     res = ec.twfe(panel, y="dissimilarity_index", x="FEII")
     if "note" in res:
         return {"note": res["note"]}
-    w = ec.wild_cluster_bootstrap(panel, y="dissimilarity_index", x="FEII")
     return {"coef": round(res["coef"], 4), "se": round(res["se"], 4),
-            "p": round(res["p"], 4), "wild_p": round(w["wild_p"], 4),
-            "n": res["n"], "clusters": res["n_clusters"]}
+            "p": round(res["p"], 4), "n": res["n"]}
 
 
 def main():
     clean = load_clean()
 
-    # ---- 1. negation sensitivity ------------------------------------------
+
     base = features(clean, negation=False)
     neg = features(clean, negation=True)
     sens = {"baseline": summarize(base), "negation": summarize(neg)}
     sens["baseline"]["twfe"] = run_twfe(base)
     sens["negation"]["twfe"] = run_twfe(neg)
-    # max absolute movement across the headline quantities
+
     d_claims = {k: round(sens["negation"]["claim_shares"][k]
                          - sens["baseline"]["claim_shares"][k], 4)
                 for k in sens["baseline"]["claim_shares"]}
@@ -100,7 +93,7 @@ def main():
           sens["negation"]["legal_signal_mean"])
     print(" TWFE:", sens["baseline"]["twfe"], "->", sens["negation"]["twfe"])
 
-    # ---- 2. FEII leave-one-out --------------------------------------------
+
     rows = [{"spec": "baseline (opinion-volume+outcome-cue+remedy-cue)", **run_twfe(base)}]
     for drop in ("opinion_volume", "outcome_cue_rate", "remedy_cue_intensity"):
         w = {c: 1 / 3 for c in ("opinion_volume", "outcome_cue_rate",
@@ -112,7 +105,7 @@ def main():
     print("\n== FEII component feasibility checks ==")
     print(loo.to_string(index=False))
 
-    # ---- 3. era stability --------------------------------------------------
+
     base = base.copy()
     base["era"] = pd.cut(base.year, [0, 2014, 2019, 3000],
                          labels=["pre-2015", "2015-2019", "2020+"])
@@ -131,7 +124,7 @@ def main():
     print("\n== era stability ==")
     print(era_df.to_string(index=False))
 
-    # ---- 4. regime top terms ----------------------------------------------
+
     from sklearn.feature_extraction.text import TfidfVectorizer
     from sklearn.decomposition import TruncatedSVD
     from sklearn.preprocessing import normalize
@@ -162,7 +155,7 @@ def main():
     for _, r in tt_df.iterrows():
         print(f" {r.regime} (n={r.n}): {r.top_terms}")
 
-    # ---- 5. case-mix-adjusted circuit legal-signal breadth -----------------
+
     import statsmodels.formula.api as smf
     df = base.rename(columns={c: c.replace("claim_", "c_") for c in CLAIMS})
     cvars = [c.replace("claim_", "c_") for c in CLAIMS]

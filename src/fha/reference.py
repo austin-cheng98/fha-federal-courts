@@ -1,15 +1,10 @@
-"""
-Shared reference data: court-id -> circuit map, FHA citation patterns, and
-the claim / reasoning / outcome / remedy lexicons used by the rule-based
-extractors.
-"""
 from __future__ import annotations
 
 import re
 
-# CourtListener court id  ->  circuit
-# Circuit is a string ("DC"/"Federal" stay readable). District ids are
-# CourtListener slugs; appellate ids are "ca1".."ca11", "cadc", "cafc", "scotus".
+
+
+
 
 _CIRCUIT_DISTRICTS: dict[str, list[str]] = {
     "1":  ["med", "mad", "nhd", "rid", "prd"],
@@ -27,12 +22,12 @@ _CIRCUIT_DISTRICTS: dict[str, list[str]] = {
     "DC": ["dcd"],
 }
 
-# Build district -> circuit lookup.
+
 COURT_TO_CIRCUIT: dict[str, str] = {}
 for _circ, _courts in _CIRCUIT_DISTRICTS.items():
     for _c in _courts:
         COURT_TO_CIRCUIT[_c] = _circ
-# Appellate courts.
+
 for _n in range(1, 12):
     COURT_TO_CIRCUIT[f"ca{_n}"] = str(_n)
 COURT_TO_CIRCUIT["cadc"] = "DC"
@@ -43,10 +38,10 @@ APPELLATE_COURTS = {f"ca{n}" for n in range(1, 12)} | {"cadc", "cafc"}
 SUPREME_COURT = "scotus"
 
 
-# CourtListener's bulk exports contain both numeric NOS strings and a small
-# number of legacy rows with the official description but no numeric prefix.
-# The paper's released corpus uses this conservative normalizer rather than a
-# substring test (e.g. "3443" must not be treated as code 443).
+
+
+
+
 _NOS443_LABEL = re.compile(
     r"^\s*civil\s+rights\s*:\s*(?:housing\s*/?\s*)?"
     r"accommodations?\s*$", re.IGNORECASE)
@@ -54,13 +49,6 @@ _NOS443_CODE = re.compile(r"(?<!\d)443(?!\d)")
 
 
 def canonical_nos_code(value: str | int | None) -> str | None:
-    """Return the canonical federal NOS code when `value` is unambiguously 443.
-
-    The official description is accepted because some CourtListener bulk rows
-    preserve the description but omit the numeric prefix. Other numeric
-    strings, including 3443/2443/4443, are rejected rather than matched by
-    substring.
-    """
     s = str(value or "").strip()
     if _NOS443_CODE.search(s) or _NOS443_LABEL.fullmatch(s):
         return "443"
@@ -68,19 +56,16 @@ def canonical_nos_code(value: str | int | None) -> str | None:
 
 
 def is_nos443(value: str | int | None) -> bool:
-    """Whether a nature-of-suit value is an exact/label-equivalent NOS-443."""
     return canonical_nos_code(value) == "443"
 
 
 def court_to_circuit(court_id: str | None) -> str | None:
-    """Map a CourtListener court id to a circuit label, else None."""
     if not court_id:
         return None
     return COURT_TO_CIRCUIT.get(court_id.strip().lower())
 
 
 def court_level(court_id: str | None) -> str | None:
-    """Return 'district', 'appellate', 'supreme', or None."""
     if not court_id:
         return None
     cid = court_id.strip().lower()
@@ -93,16 +78,16 @@ def court_level(court_id: str | None) -> str | None:
     return None
 
 
-# FHA statutory citation patterns
-# FHA = 42 U.S.C. 3601-3619 plus 3631; matched by section number or named act.
-# A bare "FHA" is not a hit (in housing-finance opinions it usually means the
-# Federal Housing Administration).
 
-# Section numbers that make a case substantively about FHA enforcement.
+
+
+
+
+
 FHA_CORE_SECTIONS = ["3601", "3602", "3603", "3604", "3605", "3606",
                      "3607", "3608", "3613", "3614", "3617", "3631"]
 
-# "42 U.S.C. (section) 3604", "42 USC 3604(a)", "Section 3604", "sec. 3617"
+
 _SECTION_NUMS = "|".join(FHA_CORE_SECTIONS)
 CITE_USC = re.compile(
     r"42\s*U\.?\s?S\.?\s?C\.?\s*(?:section|sec\.?|§{1,2})?\s*(36\d{2})",
@@ -119,9 +104,6 @@ NAMED_ACT = re.compile(
 
 
 def normalize_text(text: str) -> str:
-    """Fold typographic quotes/apostrophes to ASCII so the cue regexes match.
-    CourtListener opinions routinely use U+2019 etc., which break possessive
-    cues like r"plaintiff'?s?". Call once before any extraction."""
     if not text:
         return text
     return text.translate({0x2019: "'", 0x2018: "'", 0x02BC: "'",
@@ -129,13 +111,6 @@ def normalize_text(text: str) -> str:
 
 
 def find_fha_citations(text: str) -> list[str]:
-    """Return the sorted set of FHA section numbers cited in `text`.
-
-    The USC branch is filtered to FHA_CORE_SECTIONS. The bare-section branch
-    ("section 3604") only counts when a statutory anchor (U.S.C. / the named Act)
-    is nearby, so a stray "section 3617" from a different title or a state code is
-    not mistaken for an FHA citation.
-    """
     if not text:
         return []
     hits: set[str] = set()
@@ -152,14 +127,13 @@ def find_fha_citations(text: str) -> list[str]:
 
 
 def mentions_fha(text: str) -> bool:
-    """True if the text names the Act or cites a core FHA section."""
     if not text:
         return False
     return bool(NAMED_ACT.search(text)) or bool(find_fha_citations(text))
 
 
-# claim-type lexicons (multi-label)
-# Each pattern is compiled case-insensitive. A case can carry several labels.
+
+
 CLAIM_LEXICON: dict[str, list[str]] = {
     "disparate_treatment": [
         r"disparate\s+treatment", r"intentional\s+discrimination",
@@ -192,13 +166,13 @@ CLAIM_LEXICON: dict[str, list[str]] = {
 }
 
 
-# legal-reasoning lexicons
+
 REASONING_LEXICON: dict[str, list[str]] = {
     "mcdonnell_douglas": [
         r"mcdonnell\s+douglas", r"burden[-\s]shifting", r"prima\s+facie\s+case",
         r"legitimate,?\s+nondiscriminatory", r"\bpretext\w*\b",
     ],
-    "hud_burden_shifting": [  # 24 CFR 100.500 three-step impact framework
+    "hud_burden_shifting": [
         r"24\s*C\.?F\.?R\.?\s*(?:section|§)?\s*100\.500",
         r"robust\s+caus\w+", r"legitimate,?\s+substantial,?\s+nondiscriminatory\s+interest",
     ],
@@ -212,11 +186,11 @@ REASONING_LEXICON: dict[str, list[str]] = {
 }
 
 
-# outcome & remedy lexicons
-# Plaintiff- vs defendant-favorable disposition cues, scored (not hard-matched)
-# and weighted toward the opinion tail. Affirm/reverse are excluded here: a
-# reversal favors whoever lost below, so direction cannot map to a prevailing
-# party without appellant identity (captured separately via REVERSAL_CUES/AFFIRM_CUES).
+
+
+
+
+
 PLAINTIFF_WIN_CUES = [
     r"judgment\s+(?:is\s+)?(?:entered\s+)?(?:for|in\s+favor\s+of)\s+(?:the\s+)?plaintiff",
     r"plaintiff'?s?\s+motion\s+(?:for\s+summary\s+judgment\s+)?is\s+granted",
@@ -230,8 +204,8 @@ DEFENDANT_WIN_CUES = [
     r"motion\s+to\s+dismiss\s+is\s+granted",
     r"summary\s+judgment\s+(?:is\s+)?granted\s+(?:to|in\s+favor\s+of)\s+defendant",
 ]
-# Operative appellate action only -- anchored so they don't fire on lower-court
-# history ("the district court affirmed") or string-cites to other opinions.
+
+
 REVERSAL_CUES = [r"we\s+(?:hereby\s+)?(?:reverse|vacate)",
                  r"(?:judgment|order)\s+(?:is|are)\s+(?:reversed|vacated)",
                  r"reversed\s+and\s+remanded"]
@@ -248,7 +222,7 @@ REMEDY_LEXICON: dict[str, list[str]] = {
     "civil_penalty": [r"civil\s+penalt\w+"],
 }
 
-# Dismissal types that often imply private settlement.
+
 SETTLEMENT_INFERENCE_CUES = [
     r"stipulat\w+\s+(?:of\s+)?dismissal", r"dismiss\w*\s+with\s+prejudice\s+pursuant\s+to",
     r"settlement\s+agreement", r"consent\s+decree", r"voluntar\w+\s+dismiss\w+",
@@ -256,22 +230,7 @@ SETTLEMENT_INFERENCE_CUES = [
 ]
 
 
-# landmark FHA shocks for event studies
-# (year, label, scope): scope = "national" for SCOTUS, else the circuit string.
-FHA_SHOCKS: list[dict] = [
-    {"year": 2015, "label": "Inclusive Communities (disparate impact upheld)",
-     "scope": "national", "kind": "scotus"},
-    {"year": 1988, "label": "Fair Housing Amendments Act (disability + families)",
-     "scope": "national", "kind": "statute"},
-    {"year": 2013, "label": "HUD disparate-impact rule (24 CFR 100.500)",
-     "scope": "national", "kind": "regulation"},
-    {"year": 2020, "label": "HUD 2020 disparate-impact rule revision",
-     "scope": "national", "kind": "regulation"},
-]
-
-
 def compile_lexicon(lex: dict[str, list[str]]) -> dict[str, re.Pattern]:
-    """Compile a {label: [patterns]} lexicon into {label: combined regex}."""
     return {
         label: re.compile("|".join(f"(?:{p})" for p in pats), re.IGNORECASE)
         for label, pats in lex.items()
@@ -279,7 +238,6 @@ def compile_lexicon(lex: dict[str, list[str]]) -> dict[str, re.Pattern]:
 
 
 def score_cues(text: str, patterns: list[str]) -> int:
-    """Count how many distinct cue patterns fire in `text`."""
     if not text:
         return 0
     return sum(1 for p in patterns if re.search(p, text, re.IGNORECASE))

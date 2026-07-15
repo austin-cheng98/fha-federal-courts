@@ -5,46 +5,14 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "fha-federal-courts"
 version = "0.1.0"
-description = "ML + econometrics pipeline for Fair Housing Act enforcement across the federal circuit courts: a near-census of Nature-of-Suit-443 housing civil-rights opinions, doctrinal-regime clustering, a Federal Enforcement Intensity Index, and a TWFE design linking enforcement to residential segregation."
+description = "Reproducible Fair Housing Act district-court corpus and measurement pipeline"
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.11"
-authors = [{ name = "Austin Cheng" }]
-keywords = [
-    "fair-housing-act",
-    "empirical-legal-studies",
-    "computational-law",
-    "econometrics",
-    "twfe",
-    "nlp",
-]
-classifiers = [
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.11",
-    "License :: OSI Approved :: MIT License",
-    "Operating System :: OS Independent",
-    "Intended Audience :: Science/Research",
-    "Topic :: Scientific/Engineering",
-]
-
-# Core runtime dependencies (see requirements.txt). No GPU required: the default
-# doctrinal-regime pipeline is TF-IDF -> LSA -> K-means; legal-BERT is optional.
-dependencies = [
-    "numpy",
-    "pandas",
-    "scipy",
-    "scikit-learn",
-    "statsmodels",
-    "requests",
-    "matplotlib",
-    "tabulate",
-]
+dependencies = ["numpy", "pandas", "scipy", "scikit-learn", "statsmodels"]
 
 [project.optional-dependencies]
-# Test suite (offline; the key test recovers the synthetic BETA_TRUE).
 dev = ["pytest"]
-# Optional legal-BERT embeddings instead of TF-IDF. Not needed for any headline result.
-gpu = ["torch", "transformers"]
 
 [tool.setuptools]
 package-dir = { "" = "src" }

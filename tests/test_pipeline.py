@@ -1,8 +1,3 @@
-"""
-Fast, offline tests. Run:  PYTHONPATH=src python -m pytest tests/ -q
-The estimator test is the important one: on the *true* latent regressor the
-TWFE must recover the embedded BETA_TRUE, proving Step 7 is wired correctly.
-"""
 import sys
 from pathlib import Path
 
@@ -19,11 +14,11 @@ from fha.extract import extract_corpus
 
 
 def test_court_to_circuit():
-    assert ref.court_to_circuit("cand") == "9"      # N.D. Cal.
-    assert ref.court_to_circuit("nysd") == "2"      # S.D.N.Y.
+    assert ref.court_to_circuit("cand") == "9"
+    assert ref.court_to_circuit("nysd") == "2"
     assert ref.court_to_circuit("ca5") == "5"
     assert ref.court_to_circuit("scotus") == "SCOTUS"
-    assert ref.court_to_circuit("txctapp13") is None  # state court excluded
+    assert ref.court_to_circuit("txctapp13") is None
     assert ref.court_level("ca9") == "appellate"
     assert ref.court_level("flsd") == "district"
 
@@ -31,7 +26,7 @@ def test_court_to_circuit():
 def test_fha_citation_detection():
     assert ref.find_fha_citations("violation of 42 U.S.C. § 3604(a)") == ["3604"]
     assert "3617" in ref.find_fha_citations("see 42 U.S.C. 3617 and 3604")
-    # bare "FHA" (= Federal Housing Administration) must NOT trigger
+
     assert ref.mentions_fha("the FHA-insured mortgage was denied") is False
     assert ref.mentions_fha("brought under the Fair Housing Act") is True
 
@@ -63,7 +58,6 @@ def test_extract_case_claims_and_outcome():
 
 
 def test_twfe_recovers_true_beta():
-    """Estimator correctness: regress on the TRUE latent -> recover BETA_TRUE."""
     truth = synth.generate(n_cases=4000, seed=11)
     hp = pd.read_csv(truth["housing_panel"])
     import json
@@ -81,5 +75,5 @@ def test_feii_is_standardized():
     import json
     recs = [json.loads(l) for l in open(truth["corpus"])]
     pf = feii.aggregate(extract_corpus(recs), unit="circuit")
-    assert abs(pf["FEII"].mean()) < 1e-6        # mean-zero composite
-    assert "plaintiff_success" in pf and "remedy_severity" in pf
+    assert abs(pf["FEII"].mean()) < 1e-6
+    assert "outcome_cue_rate" in pf and "remedy_cue_intensity" in pf

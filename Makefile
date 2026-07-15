@@ -1,18 +1,18 @@
-.PHONY: install test synthetic figures clean
-
-install:
-	pip install -e .
+.PHONY: test reproduce validation clean
 
 test:
 	PYTHONPATH=src pytest -q
 
-synthetic:
-	python scripts/run_pipeline.py --source synthetic
+reproduce:
+	python scripts/run_pipeline.py
 
-figures:
-	python scripts/make_paper_assets.py
+validation:
+	python scripts/score_goldset.py
+	python scripts/validation_robustness.py
 
 clean:
-	rm -rf outputs/__pycache__ src/fha/__pycache__ tests/__pycache__ .pytest_cache
-	find . -type d -name __pycache__ -exec rm -rf {} +
-	find . -type f -name '*.pyc' -delete
+	rm -rf outputs data/processed/case_features.csv data/processed/analysis_panel.csv \
+	  data/processed/feii_panel.csv data/processed/doctrine_map.csv \
+	  data/processed/doctrine_divergence.csv data/processed/doctrine_transitions.csv \
+	  data/raw/synthetic_corpus.jsonl data/external/synthetic_housing_panel.csv \
+	  data/processed/_synth_truth.json .pytest_cache
