@@ -1,6 +1,6 @@
 # Data
 
-The repository keeps only frozen inputs needed for the paper’s analysis.
+The repository contains the frozen inputs used by the analysis.
 
 | Path | Contents |
 |---|---|

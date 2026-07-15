@@ -1,6 +1,6 @@
 # FHA federal-court corpus
 
-Minimal reproducibility package for the paper. The frozen inputs contain 757 canonical NOS-443 district-court clusters, 751 recoverable full texts, a 417-case rule-positive corpus, a 36-row housing feasibility panel, and the 93-case hand-coded validation set.
+Frozen data and deterministic code for measuring Fair Housing Act signals in federal district-court opinions. The inputs contain 757 canonical NOS-443 clusters, 751 recoverable full texts, a 417-case rule-positive corpus, a 36-row housing feasibility panel, and a 93-case hand-coded validation set.
 
 ## Reproduce
 
