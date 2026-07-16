@@ -21,10 +21,14 @@ def main():
         for row in csv.DictReader(handle):
             values[row["unit"]].append(float(row["FEII"]))
     feii = {unit: sum(items) / len(items) for unit, items in values.items()}
-    rows = run_scenarios(feii)
+    scenarios = run_scenarios(feii)
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    OUTPUT.write_text(json.dumps(rows, indent=2) + "\n", encoding="utf-8")
-    print(json.dumps({"output": str(OUTPUT), "circuits": len(rows)}, indent=2))
+    OUTPUT.write_text(json.dumps(scenarios, indent=2) + "\n", encoding="utf-8")
+    print(json.dumps({
+        "output": str(OUTPUT),
+        "circuits": scenarios["feii_reference"]["circuits"],
+        "phase_cells": len(scenarios["phase_sweep"]),
+    }, indent=2))
 
 
 if __name__ == "__main__":
