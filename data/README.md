@@ -16,7 +16,7 @@ All inputs required for the frozen analysis are included in this directory. No n
 
 ### Opinion corpus
 
-`paper_corpus.jsonl` contains one JSON object per line. Important fields are `cluster_id`, `case_name`, `court_id`, `circuit`, `court_level`, `year`, `nature_of_suit`, `text`, and `text_source`. Circuit is a geographic aggregation key, not the court that issued the opinion.
+`paper_corpus.jsonl` contains one JSON object per line. Important fields are `cluster_id`, `case_name`, `court_id`, `circuit`, `court_level`, `year`, `nature_of_suit`, `text`, and `text_source`. Circuit is a geographic aggregation key, not the court that issued the opinion. The retained legal corpus contains the 11 numbered circuits and no District of Columbia (`DC`) NOS-443 cluster; the `DC` rows in `external/housing_panel.csv` belong to the housing input, not the legal opinion denominator.
 
 The 757-row metadata file is the retrieval denominator. Six canonical clusters do not have recoverable full text, so they are not included in text extraction.
 

@@ -4,7 +4,7 @@
 
 ## Overview
 
-This repository contains a frozen CourtListener-derived corpus, a rule-based legal-text extractor, descriptive regime clustering, a circuit-year legal-signal index, and validation code. The unit of analysis is the opinion cluster. Circuit is used as a geographic aggregation key; the corpus is district-court only.
+This repository contains a frozen CourtListener-derived corpus, a rule-based legal-text extractor, descriptive regime clustering, a circuit-year legal-signal index, an illustrative Schelling segregation coupling, and validation code. The unit of analysis is the opinion cluster. Circuit is used as a geographic aggregation key; the corpus is district-court only.
 
 The released data contain 757 canonical NOS-443 clusters, 751 recoverable full texts, 417 rule-positive substantive clusters, and a 93-case hand-coded diagnostic overlap. The housing input is a feasibility check rather than a reported causal estimate: only eight substantive legal-corpus cells match, all in 2022.
 
@@ -18,6 +18,7 @@ The released data contain 757 canonical NOS-443 clusters, 751 recoverable full t
 │  NOS-443 clusters      │  Claims and duties     │  Circuit × year         │
 │  751 full texts        │  Frameworks/remedies   │  FEII descriptive index │
 │  417 substantive       │  Outcome cues          │  Housing feasibility    │
+│  Schelling coupling    │  FEII → tolerance     │  Illustrative dynamics  │
 └───────────────────────┴───────────────────────┴─────────────────────────┘
 ```
 
@@ -47,6 +48,12 @@ The released data contain 757 canonical NOS-443 clusters, 751 recoverable full t
 - Equal-weight standardized components for opinion volume, shrunken outcome-cue rate, and remedy-cue intensity.
 - ACS Black–White dissimilarity and HMDA denial-rate inputs at the circuit-year level.
 - Automatic feasibility guard: the eight-cell, one-year real merge receives a note rather than a fixed-effects estimate.
+
+### Illustrative generative coupling
+
+- A two-group Schelling model uses circuit-mean FEII to map into one neighborhood-tolerance parameter.
+- The 20 × 20 Moore-neighborhood grid, 10% vacancies, 250-cycle cap, 40 replications, and seed are fixed in code.
+- The simulation is a mechanism probe, not a calibrated housing model or causal estimate.
 
 ## Installation
 
@@ -95,6 +102,16 @@ PYTHONPATH=src pytest -q
 
 The test suite checks court mapping, FHA identification, extraction, standardized FEII construction, and the seeded synthetic estimator oracle (`BETA_TRUE = -0.70`). The synthetic check is software validation, not evidence about the real corpus.
 
+### Step 5: Run the illustrative model
+
+```bash
+python scripts/run_schelling.py
+python scripts/plot_schelling.py
+python scripts/plot_additional.py
+```
+
+These commands write the deterministic circuit-level scenarios and the three Schelling/FEII figures used in the paper. FEII changes only the tolerance parameter; the mapping endpoints are stipulated for illustration and are not fitted to the housing panel.
+
 ## Data Sources
 
 | Source | Repository input | Use |
@@ -127,6 +144,9 @@ fha-federal-courts/
 │       └── gold_human_codings.json
 ├── scripts/
 │   ├── run_pipeline.py
+│   ├── run_schelling.py
+│   ├── plot_schelling.py
+│   ├── plot_additional.py
 │   ├── score_goldset.py
 │   └── validation_robustness.py
 ├── src/fha/
@@ -140,6 +160,7 @@ fha-federal-courts/
 │   ├── pipeline.py
 │   ├── reference.py
 │   ├── reports.py
+│   ├── schelling.py
 │   └── synth.py
 └── tests/test_pipeline.py
 ```

@@ -9,7 +9,7 @@ description = "Reproducible Fair Housing Act district-court corpus and measureme
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.11"
-dependencies = ["numpy", "pandas", "scipy", "scikit-learn", "statsmodels"]
+dependencies = ["numpy", "pandas", "scipy", "scikit-learn", "statsmodels", "pillow"]
 
 [project.optional-dependencies]
 dev = ["pytest"]
