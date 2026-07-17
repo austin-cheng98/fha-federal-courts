@@ -3,5 +3,4 @@ pandas
 scipy
 scikit-learn
 statsmodels
-pillow
 pytest

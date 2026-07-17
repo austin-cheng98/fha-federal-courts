@@ -5,7 +5,7 @@ Reproducible code and frozen inputs for measuring Fair Housing Act signals in fe
 ## Contents
 
 - `src/fha/`: extraction, clustering, FEII, housing merge, and Schelling scenario modules.
-- `scripts/`: pipeline, validation, and plotting entry points.
+- `scripts/`: pipeline and validation entry points.
 - `data/`: frozen CourtListener-derived inputs and validation files.
 - `tests/`: offline regression tests.
 
@@ -27,8 +27,6 @@ python scripts/run_pipeline.py
 python scripts/score_goldset.py
 python scripts/validation_robustness.py
 python scripts/run_schelling.py
-python scripts/plot_schelling.py
-python scripts/plot_additional.py
 PYTHONPATH=src pytest -q
 ```
 
