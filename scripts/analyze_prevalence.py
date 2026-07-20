@@ -7,7 +7,9 @@ import json
 import sys
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
+from scipy.stats import beta
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from fha import config  # noqa: E402
@@ -16,6 +18,19 @@ from fha.extract import extract_case  # noqa: E402
 from sklearn.metrics import precision_recall_fscore_support  # noqa: E402
 
 CLAIMS = pv.CLAIMS
+
+
+def assurance(n10, n01, n_observed, n_target, alpha=0.05, gridsize=80):
+    """Expected power at ``n_target`` averaged over the posterior of the effect size
+    (favor-leading-side probability pi ~ Beta), which the point estimate ignores."""
+    if not n_target:
+        return None
+    psi = (n10 + n01) / n_observed
+    grid = np.linspace(0.002, 0.998, gridsize)
+    weights = beta.pdf(grid, max(n10, n01) + 1, min(n10, n01) + 1)
+    weights = weights / weights.sum()
+    return float(sum(w * pv.power_psi_pi(psi, g, n_target, alpha)
+                     for g, w in zip(grid, weights)))
 
 OUT = config.OUTPUTS / "paper" / "validation"
 
@@ -142,22 +157,31 @@ def print_report(table, paired, power, n_overlap, n_sub, n_drawn, self_consisten
               f"n10={row['n10']} n01={row['n01']}  "
               f"p={row['p_exact_mcnemar']:.4f}{stars}")
 
-    print("\n== POWER ==")
+    print("\n== POWER (exact McNemar, focal pair) ==")
     claim_a, claim_b = FOCAL_PAIR
-    if not power["converged"]:
-        print(f" {claim_a} vs {claim_b} does not reach alpha={power['alpha']} "
-              f"even at {power['max_mult']}x the observed sample.")
-        return
-    print(f" {claim_a} vs {claim_b} is NOT significant "
-          f"(p={power['p_observed']:.4f}) at n={n_sub}.")
-    print(f" Holding the observed discordance ({power['n10']}/{power['n01']}) "
-          f"constant in rate, significance at alpha={power['alpha']} needs")
-    print(f" {power['multiplier']:.2f}x the sample: n = "
-          f"{power['n_substantive_required']} substantive cases, i.e. about "
-          f"{power['n_draw_required']} clusters")
-    print(f" drawn from the same frame (substantive rate {n_sub / n_drawn:.1%}).")
-    print(" This is a break-even projection, not a powered design: it is the point")
-    print(" where the current effect would just clear alpha, giving ~50% power.")
+    p80, p90 = power["p80"], power["p90"]
+    print(f" {claim_a} vs {claim_b}: n10={power['n10']} n01={power['n01']}, "
+          f"p={power['p_observed']:.4f}, power={power['power_at_observed']:.3f} "
+          f"at n={n_sub} substantive.")
+    print(" required substantive n to detect the observed effect "
+          "(holding discordant rate and split fixed):")
+    for tag, res in [("80% power", p80), ("90% power", p90)]:
+        if res["converged"]:
+            print(f"   {tag}: n={res['n_substantive']} substantive "
+                  f"(~{res['n_draws']} total draws)")
+        else:
+            print(f"   {tag}: not reachable (split is non-informative)")
+    lo, hi = power["pi_ci"]
+    print(f" the effect is imprecisely estimated: favor-{claim_a[:4]} share "
+          f"pi={power['pi']:.3f} rests on {power['n10'] + power['n01']} discordant "
+          f"pairs,")
+    flag = "INCLUDES 0.5" if lo <= 0.5 <= hi else "excludes 0.5"
+    print(f"   Wilson 95% CI [{lo:.3f}, {hi:.3f}] {flag}.")
+    if power["assurance_at_80"] is not None:
+        print(f" averaging power over that uncertainty (posterior pi ~ Beta), "
+              f"assurance at the 80%-power n is only {power['assurance_at_80']:.2f},")
+        print(" so the ordering may not resolve even at a nominally powered size. "
+              "The treatment lead is already significant.")
     print(f"\n== SELF-CONSISTENCY ==  {self_consistency} "
           f"(fraction of claim decisions unanimous across passes)")
 
@@ -191,9 +215,17 @@ def main():
     paired = build_paired_tests(votes, substantive)
 
     focal = pv.mcnemar_exact(votes, substantive, *FOCAL_PAIR)
-    power = pv.required_n(focal["n10"], focal["n01"], alpha=args.alpha,
-                          n_substantive=len(substantive),
-                          substantive_rate=len(substantive) / len(drawn))
+    n_sub = len(substantive)
+    rate = n_sub / len(drawn)
+    n10, n01 = focal["n10"], focal["n01"]
+    p80 = pv.n_for_power(n10, n01, n_sub, 0.80, args.alpha, rate)
+    p90 = pv.n_for_power(n10, n01, n_sub, 0.90, args.alpha, rate)
+    assurance_80 = (assurance(n10, n01, n_sub, p80["n_substantive"], args.alpha)
+                    if p80["converged"] else None)
+    power = {"n10": n10, "n01": n01, "p_observed": focal["p_value"],
+             "power_at_observed": p80["power_at_observed"], "pi": p80["pi"],
+             "pi_ci": pv.wilson(max(n10, n01), n10 + n01),
+             "p80": p80, "p90": p90, "assurance_at_80": assurance_80}
 
     print_report(table, paired, power, n_overlap, len(substantive), len(drawn),
                  committed["selfConsistency"])

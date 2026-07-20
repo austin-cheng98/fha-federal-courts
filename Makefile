@@ -1,4 +1,4 @@
-.PHONY: test pipeline validation llm schelling reproduce clean
+.PHONY: test pipeline validation llm reproduce clean
 
 test:
 	PYTHONPATH=src python3 -m pytest -q
@@ -15,10 +15,7 @@ llm:
 	python3 scripts/score_llm_baseline.py
 	python3 scripts/analyze_prevalence.py
 
-schelling: pipeline
-	python3 scripts/run_schelling.py
-
-reproduce: pipeline validation llm schelling
+reproduce: pipeline validation llm
 
 clean:
 	rm -rf outputs data/processed/case_features.csv data/processed/analysis_panel.csv \

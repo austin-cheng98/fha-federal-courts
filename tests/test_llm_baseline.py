@@ -256,3 +256,36 @@ def test_paired_prevalence_contrasts(substantive_ids, committed_votes):
         n10, n01 = discordant(a, b)
         assert (n10, n01) == (exp10, exp01), (a, b)
         assert llm.mcnemar_exact(n10, n01) == pytest.approx(exp_p, abs=1e-3), (a, b)
+
+
+# --- exact-power sample sizing (src/fha/prevalence.py) ---
+from fha import prevalence as pv  # noqa: E402
+
+
+def test_mcnemar_power_matches_reference():
+    # observed RA-vs-DI effect: 15/8 discordant of 76 substantive cases
+    assert pv.mcnemar_power(15, 8, 76, 76) == pytest.approx(0.236, abs=2e-3)
+    assert pv.mcnemar_power(15, 8, 76, 295) == pytest.approx(0.80, abs=1e-2)
+
+
+def test_mcnemar_power_is_monotone_in_n():
+    ns = [76, 150, 250, 400, 600]
+    powers = [pv.mcnemar_power(15, 8, 76, n) for n in ns]
+    assert powers == sorted(powers)
+    assert all(0.0 <= p <= 1.0 for p in powers)
+
+
+def test_n_for_power_converges_and_orders():
+    r80 = pv.n_for_power(15, 8, 76, 0.80, substantive_rate=76 / 150)
+    r90 = pv.n_for_power(15, 8, 76, 0.90, substantive_rate=76 / 150)
+    assert r80["converged"] and r90["converged"]
+    assert 250 <= r80["n_substantive"] <= 350          # ~295
+    assert r90["n_substantive"] > r80["n_substantive"]  # more power costs more n
+    assert r80["n_draws"] > r80["n_substantive"]        # draws inflate by 1/rate
+
+
+def test_n_for_power_noninformative_split_does_not_converge():
+    # a 50/50 discordant split carries no directional signal; no n suffices
+    out = pv.n_for_power(12, 12, 76, 0.80)
+    assert out["converged"] is False
+    assert out["n_substantive"] is None

@@ -5,6 +5,7 @@ import math
 
 import numpy as np
 import pandas as pd
+from scipy.stats import binom
 
 from . import config
 from .classify import rule_is_fha
@@ -90,29 +91,71 @@ def mcnemar_exact(votes, ids, construct_a, construct_b):
             "diff": rate_a - rate_b, "p_value": _exact_p(n10, n01)}
 
 
-def required_n(n10, n01, alpha=0.05, max_mult=10, n_substantive=None,
-               substantive_rate=None):
-    grid = np.arange(1.0, max_mult + 1e-9, 0.01)
-    multiplier = None
-    p_at_multiplier = None
-    for m in grid:
-        p = _exact_p(int(round(n10 * m)), int(round(n01 * m)))
-        if p < alpha:
-            multiplier = float(m)
-            p_at_multiplier = p
-            break
-    out = {"n10": n10, "n01": n01, "alpha": alpha,
-           "p_observed": _exact_p(n10, n01),
-           "multiplier": multiplier, "p_at_multiplier": p_at_multiplier,
-           "converged": multiplier is not None, "max_mult": max_mult}
-    if multiplier is None:
-        out["n_substantive_required"] = None
-        out["n_draw_required"] = None
+def _reject_thresholds(n_discordant, alpha=0.05):
+    """Largest minority discordant count that still rejects the two-sided exact
+    McNemar test at ``alpha``, computed for every value in ``n_discordant`` at once.
+    -1 marks discordant totals too small for any split to reject. Uses the binomial
+    CDF (not 2**n integer sums) so it is stable for large samples."""
+    d = np.asarray(n_discordant, dtype=int)
+    cand = binom.ppf(alpha / 2.0, d, 0.5)
+    cand = np.where(np.isnan(cand), -1, cand).astype(int)
+    for _ in range(2):  # ppf can be off by one; step down until 2*cdf < alpha holds
+        too_high = (cand >= 0) & (2 * binom.cdf(cand, d, 0.5) >= alpha)
+        cand = np.where(too_high, cand - 1, cand)
+    for _ in range(2):  # then step up while the next count still rejects
+        can_up = 2 * binom.cdf(np.clip(cand + 1, 0, d), d, 0.5) < alpha
+        cand = np.where(can_up, cand + 1, cand)
+    return np.maximum(cand, -1)
+
+
+def power_psi_pi(psi, pi, n_target, alpha=0.05):
+    """Exact unconditional power of the two-sided exact McNemar test at substantive
+    sample size ``n_target``. Each case is a discordant pair with probability ``psi``
+    and, when discordant, favors the leading side with probability ``pi``. This
+    integrates over the random number of discordant pairs, so the point where it first
+    reaches ~0.5 is roughly the old break-even "just clears alpha" estimate."""
+    if n_target <= 0 or psi <= 0:
+        return 0.0
+    d = np.arange(n_target + 1)
+    p_disc = binom.pmf(d, n_target, psi)
+    thr = _reject_thresholds(d, alpha)
+    valid = thr >= 0
+    lower = binom.cdf(np.where(valid, thr, 0), d, pi)
+    upper = 1.0 - binom.cdf(np.where(valid, d - thr - 1, d), d, pi)
+    reject = np.where(valid, lower + upper, 0.0)
+    return float((p_disc * reject).sum())
+
+
+def mcnemar_power(n10, n01, n_observed, n_target, alpha=0.05):
+    """Power to detect the observed paired effect at substantive sample size
+    ``n_target``, holding the observed discordant rate and split fixed."""
+    d = n10 + n01
+    if d == 0 or n_observed <= 0:
+        return 0.0
+    return power_psi_pi(d / n_observed, max(n10, n01) / d, n_target, alpha)
+
+
+def n_for_power(n10, n01, n_observed, target_power=0.80, alpha=0.05,
+                substantive_rate=None, max_n=6000):
+    """Smallest substantive sample size reaching ``target_power`` for the observed
+    effect. ``converged`` is False when the split is non-informative (pi<=0.5) or the
+    search ceiling cannot reach the target."""
+    d = n10 + n01
+    pi = max(n10, n01) / d if d else 0.0
+    out = {"n10": n10, "n01": n01, "target_power": target_power, "alpha": alpha,
+           "pi": pi, "n_observed": n_observed,
+           "power_at_observed": mcnemar_power(n10, n01, n_observed, n_observed, alpha)}
+    if pi <= 0.5 or mcnemar_power(n10, n01, n_observed, max_n, alpha) < target_power:
+        out.update(converged=False, n_substantive=None, n_draws=None)
         return out
-    n_sub = (int(math.ceil(n_substantive * multiplier))
-             if n_substantive is not None else None)
-    out["n_substantive_required"] = n_sub
-    out["n_draw_required"] = (int(math.ceil(n_sub / substantive_rate))
-                              if n_sub is not None and substantive_rate
-                              else None)
+    lo, hi = 1, max_n
+    while lo < hi:
+        mid = (lo + hi) // 2
+        if mcnemar_power(n10, n01, n_observed, mid, alpha) >= target_power:
+            hi = mid
+        else:
+            lo = mid + 1
+    out.update(converged=True, n_substantive=lo,
+               n_draws=(int(math.ceil(lo / substantive_rate))
+                        if substantive_rate else None))
     return out

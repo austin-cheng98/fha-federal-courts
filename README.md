@@ -24,8 +24,8 @@ make reproduce
 ```
 
 This runs the deterministic pipeline, validation checks, random-sample verification,
-frozen-LLM scoring, prevalence correction, and the Schelling scenarios. Generated tables
-and reports are written under ignored `data/processed/` and `outputs/` paths.
+frozen-LLM scoring, and prevalence correction. Generated tables and reports are written
+under ignored `data/processed/` and `outputs/` paths.
 
 To run individual checks:
 
@@ -41,7 +41,7 @@ used when the input frame is intentionally changed.
 
 ## Repository map
 
-- `src/fha/` — extraction, doctrinal regimes, FEII, housing inputs, and Schelling scenarios.
+- `src/fha/` — extraction, doctrinal regimes, FEII, housing feasibility inputs, and the LLM baseline.
 - `scripts/` — reproducible entry points used by `make reproduce`.
 - `data/` — frozen corpus, housing panel, human coding, codebook, and LLM artifacts.
 - `docs/LLM_BASELINE.md` — provenance and verification details for the frozen LLM baseline.
