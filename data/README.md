@@ -1,13 +1,18 @@
 # Data
 
-Frozen inputs for the default offline pipeline.
+The default workflow uses only committed local files. `data/processed/*.csv` and
+`outputs/` are generated and ignored.
 
-| Path | Rows | Description |
-|---|---:|---|
-| `raw/bulk_fha_cases.jsonl` | 757 | NOS-443 opinion-cluster metadata |
-| `processed/paper_corpus.jsonl` | 751 | Full-text opinion records |
-| `external/housing_panel.csv` | 36 | Circuit-year housing panel |
-| `validation/gold_human_codings.json` | 93 | Hand-coded validation set |
-| `validation/excluded_non_nos443.jsonl` | 180 | Excluded candidate records |
+| Path | Role |
+|---|---|
+| `raw/bulk_fha_cases.jsonl` | Frozen NOS-443 candidate metadata |
+| `processed/paper_corpus.jsonl` | Canonical opinion records with recovered text |
+| `external/housing_panel.csv` | Circuit-year ACS dissimilarity and HMDA inputs |
+| `validation/gold_human_codings.json` | Human-coded overlap and second-pass cases |
+| `validation/excluded_non_nos443.jsonl` | Excluded candidate records |
+| `validation/CODEBOOK.md` | Coding definitions and evidence-quote rules |
+| `validation/random_sample_index.json` | Seeded 150-case draw (`20260720`) |
+| `validation/llm_labels_3pass.json` | Frozen pass-level LLM labels |
+| `validation/llm_majority_votes.json` | Frozen majority votes and self-consistency |
 
-Generated files are ignored and can be rebuilt with the scripts in `../scripts/`.
+Run `make reproduce` from the repository root to rebuild derived files and reports.

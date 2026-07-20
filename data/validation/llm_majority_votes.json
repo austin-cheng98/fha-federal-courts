@@ -1,0 +1,2200 @@
+{
+ "goldVote": {
+  "1361067": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 1,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "mcdonnell",
+   "n": 3
+  },
+  "1625946": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "1665351": {
+   "disparate_treatment": 1,
+   "disparate_impact": 1,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 1,
+   "framework": "mcdonnell",
+   "n": 3
+  },
+  "2144904": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 1,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "mcdonnell",
+   "n": 3
+  },
+  "2316927": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 1,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "2317860": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 1,
+   "framework": "none",
+   "n": 3
+  },
+  "2356684": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "2413613": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "2416218": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 1,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "mcdonnell",
+   "n": 3
+  },
+  "2416915": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 1,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "mcdonnell",
+   "n": 3
+  },
+  "2461556": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 1,
+   "framework": "none",
+   "n": 3
+  },
+  "2578482": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 1,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "mcdonnell",
+   "n": 3
+  },
+  "9515894": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9516790": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9531580": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9531882": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9624842": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 1,
+   "framework": "none",
+   "n": 3
+  },
+  "9628652": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 1,
+   "framework": "none",
+   "n": 3
+  },
+  "9628672": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 1,
+   "framework": "mcdonnell",
+   "n": 3
+  },
+  "9630644": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9664705": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 1,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9669141": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 1,
+   "framework": "none",
+   "n": 3
+  },
+  "9672005": {
+   "disparate_treatment": 1,
+   "disparate_impact": 1,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 2
+  },
+  "9680357": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9683849": {
+   "disparate_treatment": 1,
+   "disparate_impact": 1,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "hud",
+   "n": 3
+  },
+  "9699210": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "mcdonnell",
+   "n": 3
+  },
+  "9702091": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 1,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9703895": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9710277": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9722146": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9724267": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 1,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9724281": {
+   "disparate_treatment": 1,
+   "disparate_impact": 1,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 1,
+   "framework": "none",
+   "n": 3
+  },
+  "9735401": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9753730": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9755170": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9773996": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9780508": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 1,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9810891": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 1,
+   "framework": "none",
+   "n": 3
+  },
+  "9836490": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 1,
+   "framework": "none",
+   "n": 3
+  },
+  "9839004": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 1,
+   "framework": "none",
+   "n": 3
+  },
+  "9841875": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9847505": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9847946": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9849905": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9850986": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 1,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9859556": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 1,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9884124": {
+   "disparate_treatment": 1,
+   "disparate_impact": 1,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "hud",
+   "n": 3
+  },
+  "9901522": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9922307": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9923186": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9933185": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9935747": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9938953": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 1,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9941826": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 1,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9965467": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 1,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9970186": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9976437": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9980892": {
+   "disparate_treatment": 0,
+   "disparate_impact": 1,
+   "refusal_rent_sell": 1,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 1,
+   "framework": "none",
+   "n": 3
+  },
+  "9981922": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10177302": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10178561": {
+   "disparate_treatment": 1,
+   "disparate_impact": 1,
+   "refusal_rent_sell": 1,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "hud",
+   "n": 3
+  },
+  "10193115": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 1,
+   "framework": "none",
+   "n": 3
+  },
+  "10199087": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10199166": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10200456": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 1,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10204970": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10208849": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10212330": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 1,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10226687": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 1,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10226859": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 1,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10234237": {
+   "disparate_treatment": 1,
+   "disparate_impact": 1,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 1,
+   "framework": "mcdonnell",
+   "n": 3
+  },
+  "10286748": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10329734": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10385875": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10626608": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 1,
+   "framework": "none",
+   "n": 3
+  },
+  "10636489": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "mcdonnell",
+   "n": 3
+  },
+  "10644804": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 1,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "mcdonnell",
+   "n": 3
+  },
+  "10652715": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 1,
+   "framework": "none",
+   "n": 3
+  },
+  "10657815": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10660660": {
+   "disparate_treatment": 1,
+   "disparate_impact": 1,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 1,
+   "framework": "none",
+   "n": 3
+  },
+  "10665957": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10691174": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10709344": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 1,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10715355": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10734421": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10737079": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10769187": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 1,
+   "framework": "none",
+   "n": 3
+  },
+  "10769412": {
+   "disparate_treatment": 1,
+   "disparate_impact": 1,
+   "refusal_rent_sell": 1,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "both",
+   "n": 3
+  },
+  "10773145": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10776572": {
+   "disparate_treatment": 0,
+   "disparate_impact": 1,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "hud",
+   "n": 3
+  },
+  "10783818": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 1,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10784453": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10806870": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  }
+ },
+ "randVote": {
+  "1478636": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "1592512": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 1,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "mcdonnell",
+   "n": 3
+  },
+  "2185480": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 1,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "mcdonnell",
+   "n": 3
+  },
+  "2299959": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "2356078": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "2411266": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 1,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "2423977": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "mcdonnell",
+   "n": 3
+  },
+  "2438941": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "2495016": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "2522669": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 1,
+   "framework": "none",
+   "n": 3
+  },
+  "9515022": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9515372": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9515952": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9522787": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9524837": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9529556": {
+   "disparate_treatment": 1,
+   "disparate_impact": 1,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "hud",
+   "n": 3
+  },
+  "9529824": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9531816": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9534733": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9534806": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9548219": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9572567": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9585682": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9598587": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9605939": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9614070": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9623578": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9628598": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 1,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9637225": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 1,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9638968": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9639806": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9650793": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9651251": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9653947": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "mcdonnell",
+   "n": 3
+  },
+  "9654139": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9663795": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9668117": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9668168": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 1,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "mcdonnell",
+   "n": 3
+  },
+  "9673112": {
+   "disparate_treatment": 1,
+   "disparate_impact": 1,
+   "refusal_rent_sell": 1,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "hud",
+   "n": 3
+  },
+  "9676963": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9682904": {
+   "disparate_treatment": 0,
+   "disparate_impact": 1,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "hud",
+   "n": 3
+  },
+  "9682918": {
+   "disparate_treatment": 1,
+   "disparate_impact": 1,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "hud",
+   "n": 3
+  },
+  "9708408": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9708781": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9709829": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9709850": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9711696": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9721118": {
+   "disparate_treatment": 0,
+   "disparate_impact": 1,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "hud",
+   "n": 3
+  },
+  "9721824": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9725635": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9735665": {
+   "disparate_treatment": 1,
+   "disparate_impact": 1,
+   "refusal_rent_sell": 1,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "hud",
+   "n": 3
+  },
+  "9736594": {
+   "disparate_treatment": 1,
+   "disparate_impact": 1,
+   "refusal_rent_sell": 1,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "hud",
+   "n": 3
+  },
+  "9740593": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9742197": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9743738": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9754082": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9761936": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9762947": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9774025": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9808330": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 1,
+   "framework": "none",
+   "n": 3
+  },
+  "9823978": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9830660": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9845882": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 1,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "mcdonnell",
+   "n": 3
+  },
+  "9849935": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9850145": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9857987": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9858754": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9861532": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9867283": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9868591": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9870218": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9880876": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9883223": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9890323": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 1,
+   "framework": "none",
+   "n": 3
+  },
+  "9917897": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9922023": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9936771": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9937512": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9939841": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9940822": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9941810": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9942129": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9955001": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 1,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9960064": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9964514": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9965265": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9965457": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "mcdonnell",
+   "n": 3
+  },
+  "9966279": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9969925": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9970531": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "9983644": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10166678": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10166885": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10174550": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 1,
+   "framework": "none",
+   "n": 3
+  },
+  "10178020": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10178454": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10179253": {
+   "disparate_treatment": 0,
+   "disparate_impact": 1,
+   "refusal_rent_sell": 1,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10180919": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10192438": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "mcdonnell",
+   "n": 3
+  },
+  "10193508": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10193520": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "mcdonnell",
+   "n": 3
+  },
+  "10198279": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10199161": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10202275": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 1,
+   "framework": "none",
+   "n": 3
+  },
+  "10212489": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10217299": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10236781": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10236793": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10239844": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 1,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 1,
+   "framework": "mcdonnell",
+   "n": 3
+  },
+  "10247232": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10273933": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10274379": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10294235": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10305745": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10306405": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10308673": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10312213": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10327311": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10328766": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10350066": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10352462": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10359039": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10362497": {
+   "disparate_treatment": 1,
+   "disparate_impact": 1,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10364078": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10373318": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10602452": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10621722": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10632188": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10634689": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10641808": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10648350": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10656052": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10667247": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "mcdonnell",
+   "n": 3
+  },
+  "10668035": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10682794": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "mcdonnell",
+   "n": 3
+  },
+  "10691267": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10715855": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10731544": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10735435": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10740087": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10743822": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10756985": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10767908": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10777676": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10777846": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10778453": {
+   "disparate_treatment": 1,
+   "disparate_impact": 1,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 1,
+   "zoning_exclusionary": 1,
+   "framework": "none",
+   "n": 3
+  },
+  "10786933": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10806862": {
+   "disparate_treatment": 1,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 1,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10809570": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  },
+  "10829184": {
+   "disparate_treatment": 0,
+   "disparate_impact": 0,
+   "refusal_rent_sell": 0,
+   "reasonable_accommodation": 0,
+   "zoning_exclusionary": 0,
+   "framework": "none",
+   "n": 3
+  }
+ },
+ "selfConsistency": 0.9877,
+ "counts": {
+  "requested": 729,
+  "returned": 728,
+  "goldCases": 93,
+  "randCases": 150
+ }
+}

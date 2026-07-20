@@ -1,46 +1,51 @@
 # FHA Federal-Court Corpus
 
-Reproducible code and frozen inputs for measuring Fair Housing Act signals in federal district-court opinions.
-
-## Contents
-
-- `src/fha/`: extraction, clustering, FEII, housing merge, and Schelling scenario modules.
-- `scripts/`: pipeline and validation entry points.
-- `data/`: frozen CourtListener-derived inputs and validation files.
-- `tests/`: offline regression tests.
+Code and frozen inputs for measuring Fair Housing Act signals in federal district-court opinions.
 
 ## Setup
+
+Requires Python 3.11 or newer.
 
 ```bash
 git clone https://github.com/austin-cheng98/fha-federal-courts.git
 cd fha-federal-courts
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-pip install -e .
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -e ".[dev]"
 ```
 
 ## Reproduce
 
+The complete workflow is offline. The LLM labels used by the paper are frozen in
+`data/validation/`; reproduction does not make an API call.
+
 ```bash
-python scripts/run_pipeline.py
-python scripts/score_goldset.py
-python scripts/validation_robustness.py
-python scripts/run_schelling.py
-PYTHONPATH=src pytest -q
+make reproduce
 ```
 
-Generated files are written to ignored `data/processed/` and `outputs/` paths.
+This runs the deterministic pipeline, validation checks, random-sample verification,
+frozen-LLM scoring, prevalence correction, and the Schelling scenarios. Generated tables
+and reports are written under ignored `data/processed/` and `outputs/` paths.
 
-## Data
+To run individual checks:
 
-Included inputs:
+```bash
+make test
+python3 scripts/draw_random_sample.py
+python3 scripts/score_llm_baseline.py
+python3 scripts/analyze_prevalence.py
+```
 
-- `data/raw/bulk_fha_cases.jsonl`
-- `data/processed/paper_corpus.jsonl`
-- `data/external/housing_panel.csv`
-- `data/validation/gold_human_codings.json`
-- `data/validation/excluded_non_nos443.jsonl`
+`draw_random_sample.py --write` overwrites the committed sample index and should only be
+used when the input frame is intentionally changed.
+
+## Repository map
+
+- `src/fha/` — extraction, doctrinal regimes, FEII, housing inputs, and Schelling scenarios.
+- `scripts/` — reproducible entry points used by `make reproduce`.
+- `data/` — frozen corpus, housing panel, human coding, codebook, and LLM artifacts.
+- `docs/LLM_BASELINE.md` — provenance and verification details for the frozen LLM baseline.
+- `tests/` — offline regression tests.
 
 ## License
 
