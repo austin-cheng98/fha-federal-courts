@@ -18,7 +18,7 @@ CLAIMS = ["disparate_treatment", "disparate_impact", "refusal_rent_sell",
 # validation entry points; import from whichever module supplies them.
 CANDIDATES = ["fha.llm_baseline", "fha.llm_eval", "score_llm_baseline",
               "llm_baseline"]
-NEEDED = ["majority_vote", "self_consistency", "wilson", "rogan_gladen",
+NEEDED = ["majority_vote", "self_consistency", "wilson", "precision_recall_correction",
           "mcnemar_exact"]
 
 
@@ -150,16 +150,16 @@ def test_wilson_widens_as_n_shrinks():
     assert (narrow[1] - narrow[0]) > (narrower[1] - narrower[0])
 
 
-def test_rogan_gladen():
+def test_precision_recall_correction():
     # precision == recall leaves the observed share unchanged
-    assert llm.rogan_gladen(0.376, 0.8, 0.8) == pytest.approx(0.376, abs=1e-9)
+    assert llm.precision_recall_correction(0.376, 0.8, 0.8) == pytest.approx(0.376, abs=1e-9)
     # zero recall is undefined, not infinite
-    assert llm.rogan_gladen(0.3, 0.9, 0.0) != llm.rogan_gladen(0.3, 0.9, 0.0)
+    assert llm.precision_recall_correction(0.3, 0.9, 0.0) != llm.precision_recall_correction(0.3, 0.9, 0.0)
     # correction cannot exceed a share of one
-    assert llm.rogan_gladen(0.9, 0.95, 0.1) == pytest.approx(1.0)
+    assert llm.precision_recall_correction(0.9, 0.95, 0.1) == pytest.approx(1.0)
 
 
-def test_rogan_gladen_matches_paper_corrections():
+def test_precision_recall_correction_matches_paper_corrections():
     # observed regex shares on the 417 substantive clusters, the regex
     # precision/recall from the 93-case overlap, and the corrected shares
     cases = [
@@ -170,7 +170,7 @@ def test_rogan_gladen_matches_paper_corrections():
         ("zoning_exclusionary", 0.0935, 0.800, 0.800, 0.094),
     ]
     for name, observed, precision, recall, corrected in cases:
-        got = llm.rogan_gladen(observed, precision, recall)
+        got = llm.precision_recall_correction(observed, precision, recall)
         assert 0.0 <= got <= 1.0, name
         assert got == pytest.approx(corrected, abs=1e-3), name
 

@@ -41,7 +41,7 @@ used when the input frame is intentionally changed.
 
 ## Repository map
 
-- `src/fha/` — extraction, FEII, housing feasibility inputs, the LLM baseline, and the Schelling gatekeeping model. A released doctrinal-embedding module is included but not used in the sorting analysis.
+- `src/fha/` — extraction, FEII, housing feasibility inputs, the LLM baseline, the cross-circuit doctrinal-split test, and the Schelling gatekeeping model. A released doctrinal-embedding module is included but not used in the sorting analysis.
 - `scripts/` — reproducible entry points used by `make reproduce`.
 - `data/` — frozen corpus, housing panel, human coding, codebook, and LLM artifacts.
 - `docs/LLM_BASELINE.md` — provenance and verification details for the frozen LLM baseline.

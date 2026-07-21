@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Claim prevalence in the frozen 150-cluster random sample, on the substantive
-denominator, against the paper's regex shares and their Rogan-Gladen correction."""
+denominator, against the paper's regex shares and their precision-recall correction."""
 
 import argparse
 import json
@@ -99,7 +99,7 @@ def build_prevalence_table(votes, substantive, regex_pr):
             "regex_precision": round(precision, 3),
             "regex_recall": round(recall, 3),
             "regex_share_417_corrected": round(
-                pv.rogan_gladen(observed, precision, recall), 3),
+                pv.precision_recall_correction(observed, precision, recall), 3),
         })
     return pd.DataFrame(rows)
 
@@ -138,7 +138,7 @@ def print_denominators(index, n_drawn, n_sub, n_missing):
 def print_report(table, paired, power, n_overlap, n_sub, n_drawn, self_consistency):
     print(f"\n== PREVALENCE (LLM 3-pass majority, n={n_sub} substantive) ==")
     print(f" regex precision/recall measured on the {n_overlap}-case human overlap;")
-    print(" corrected share = observed * precision / recall (Rogan-Gladen)")
+    print(" corrected share = observed * precision / recall (precision-recall)")
     header = (f"{'construct':<26}{'k':>4}{'share':>8}{'95% CI':>17}"
               f"{'regex417':>10}{'rxP':>7}{'rxR':>7}{'corrected':>11}")
     print(header)

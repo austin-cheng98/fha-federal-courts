@@ -10,6 +10,7 @@ validation:
 	python3 scripts/score_goldset.py
 	python3 scripts/validation_robustness.py
 	python3 scripts/draw_random_sample.py
+	python3 scripts/circuit_split.py
 
 llm:
 	python3 scripts/score_llm_baseline.py

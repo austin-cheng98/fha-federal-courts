@@ -40,7 +40,7 @@ def wilson(k, n, z=1.96):
     return (float(max(0.0, (c - h) / d)), float(min(1.0, (c + h) / d)))
 
 
-def rogan_gladen(observed, precision, recall):
+def precision_recall_correction(observed, precision, recall):
     if recall == 0:
         return float("nan")
     return float(min(1.0, max(0.0, observed * precision / recall)))
